@@ -1,0 +1,26 @@
+.root {
+	-fx-background-color: transparent;
+}
+
+.reloadIcon {
+	-fx-image: url(../images/reload.png);
+}
+
+.button {
+	-fx-background-color: #a5eb78;
+	-fx-border-radius: 0px;
+	-fx-background-radius: 0px;
+}
+
+.button:hover {
+	-fx-scale-x: 1.1px;
+	-fx-scale-y: 1.1px;
+}
+
+.scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+.rootBackground {
+	-fx-background-image: url(../images/background.png);
+}
