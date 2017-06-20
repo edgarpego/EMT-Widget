@@ -17,6 +17,11 @@
 	-fx-scale-y: 1.1px;
 }
 
+.button:pressed {
+	-fx-scale-x: 1px;
+	-fx-scale-y: 1px;
+}
+
 .scroll-bar:vertical {
     -fx-opacity: 0;
 }
