@@ -1,6 +1,8 @@
 package es.tamarit.widgetemt.widget;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,15 +40,21 @@ public class WidgetController {
 	private String response;
 	
 	@FXML
-	public void initialize() throws IOException {
-		myWebEngine = myWebView.getEngine();
-		
-		properties = new Properties();
-		InputStream inputStream = getClass().getResourceAsStream("/properties/application.properties");
-		properties.load(inputStream);
-		inputStream.close();
-		
-		printTimes();
+	public void initialize() {
+		try {
+			myWebEngine = myWebView.getEngine();
+			
+			properties = new Properties();
+			InputStream inputStream = new FileInputStream("application.properties");
+			properties.load(inputStream);
+			inputStream.close();
+			
+			printTimes();
+		} catch (FileNotFoundException e) {
+			LOGGER.error("Error trying to get the properties file", e);
+		} catch (IOException e) {
+			LOGGER.error("Error trying to load the properties", e);
+		}
 	}
 	
 	@FXML

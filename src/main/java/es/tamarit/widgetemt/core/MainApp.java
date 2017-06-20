@@ -5,8 +5,12 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
 
@@ -28,7 +32,7 @@ import javafx.stage.StageStyle;
 
 public class MainApp extends Application {
 	
-	private static final Logger LOGGER = LogManager.getLogger(MainApp.class.getName());
+	private static final Logger LOGGER = LogManager.getLogger(MainApp.class);
 	private static final String TRY_ICON_16 = "/images/icon.png";
 	
 	private Stage primaryStage;
@@ -91,14 +95,14 @@ public class MainApp extends Application {
 		
 		try {
 			properties = new Properties();
-			InputStream inputStream = getClass().getResourceAsStream("/properties/application.properties");
+			InputStream inputStream = new FileInputStream("application.properties");
 			properties.load(inputStream);
 			inputStream.close();
 			
-			getPrimatyStage().setX(Integer.valueOf(properties.getProperty("widget.position.x")));
-			getPrimatyStage().setY(Integer.valueOf(properties.getProperty("widget.position.y")));
-			secondaryStage.setX(Integer.valueOf(properties.getProperty("widget.position.x")));
-			secondaryStage.setY(Integer.valueOf(properties.getProperty("widget.position.y")));
+			getPrimatyStage().setX(Double.valueOf(properties.getProperty("widget.position.x")));
+			getPrimatyStage().setY(Double.valueOf(properties.getProperty("widget.position.y")));
+			getSecondaryStage().setX(Double.valueOf(properties.getProperty("widget.position.x")));
+			getSecondaryStage().setY(Double.valueOf(properties.getProperty("widget.position.y")));
 		} catch (IOException e) {
 			LOGGER.error("Error trying to load data from properties file.", e);
 		}
@@ -112,8 +116,8 @@ public class MainApp extends Application {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
 				// record a delta distance for the drag and drop operation.
-				dragDelta.x = secondaryStage.getX() - mouseEvent.getScreenX();
-				dragDelta.y = secondaryStage.getY() - mouseEvent.getScreenY();
+				dragDelta.x = getSecondaryStage().getX() - mouseEvent.getScreenX();
+				dragDelta.y = getSecondaryStage().getY() - mouseEvent.getScreenY();
 				scene.setCursor(Cursor.MOVE);
 			}
 		});
@@ -122,15 +126,26 @@ public class MainApp extends Application {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
 				scene.setCursor(Cursor.HAND);
-				// LOGGER.info("x: " + getPrimatyStage().getX() + " " + "y: " + getPrimatyStage().getY());
+				LOGGER.info("x: " + getPrimatyStage().getX() + " " + "y: " + getPrimatyStage().getY());
+				try {
+					OutputStream output = new FileOutputStream("application.properties");
+					properties.setProperty("widget.position.x", String.valueOf(getSecondaryStage().getX()));
+					properties.setProperty("widget.position.y", String.valueOf(getSecondaryStage().getY()));
+					properties.store(output, null);
+					output.close();
+				} catch (FileNotFoundException e) {
+					LOGGER.error("Error trying open the file.", e);
+				} catch (IOException e) {
+					LOGGER.error("Error trying to save the new data to the file.", e);
+				}
 			}
 		});
 		widgetView.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				secondaryStage.setX(mouseEvent.getScreenX() + dragDelta.x);
-				secondaryStage.setY(mouseEvent.getScreenY() + dragDelta.y);
+				getSecondaryStage().setX(mouseEvent.getScreenX() + dragDelta.x);
+				getSecondaryStage().setY(mouseEvent.getScreenY() + dragDelta.y);
 			}
 		});
 		widgetView.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -180,11 +195,10 @@ public class MainApp extends Application {
 			MenuItem exitItem = new java.awt.MenuItem("Close widget");
 			exitItem.addActionListener(event -> {
 				Platform.runLater(() -> {
-					secondaryStage.close();
+					getSecondaryStage().close();
 					getPrimatyStage().close();
+					System.exit(0);
 				});
-				
-				System.exit(0);
 			});
 			
 			popup.add(openItem);
@@ -244,6 +258,10 @@ public class MainApp extends Application {
 	
 	public Stage getPrimatyStage() {
 		return this.primaryStage;
+	}
+	
+	public Stage getSecondaryStage() {
+		return this.secondaryStage;
 	}
 	
 	public static void main(String... varargs) {
