@@ -6,8 +6,11 @@
 	-fx-image: url(../images/reload.png);
 }
 
+.settingsIcon {
+	-fx-image: url(../images/settings.png);
+}
+
 .button {
-	-fx-background-color: #a5eb78;
 	-fx-border-radius: 0px;
 	-fx-background-radius: 0px;
 }
