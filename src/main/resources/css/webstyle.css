@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 .imagenParada {
-    /*position: relative;
-    top: 6px;*/
+    position: relative;
+    top: 1px;
 }
 
 .llegadaHome {
 	position: relative;
-	top: -6px;
+	top: -5px;
 	font-family: 'Roboto', sans-serif;
 	font-size: 15px;
 }
