@@ -2,24 +2,31 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="rootBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.widget.WidgetController">
+<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="widgetBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.widget.WidgetController">
    <children>
       <Button contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#openSettingsWindow" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #95a5a6;" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="settingsIcon" />
          </graphic>
+         <tooltip>
+            <Tooltip text="Settings" />
+         </tooltip>
       </Button>
       <HBox alignment="CENTER">
          <children>
             <Button fx:id="refreshButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reloadHandler" style="-fx-background-color: #a5eb78;">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="reloadIcon" />
-               </graphic></Button>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Refresh" />
+               </tooltip></Button>
             <WebView fx:id="myWebView" prefHeight="100.0" prefWidth="300.0" />
          </children>
       </HBox>

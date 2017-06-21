@@ -10,6 +10,14 @@
 	-fx-image: url(../images/settings.png);
 }
 
+.confirmIcon {
+	-fx-image: url(../images/confirm.png);
+}
+
+.cancelIcon {
+	-fx-image: url(../images/cancel.png);
+}
+
 .button {
 	-fx-border-radius: 0px;
 	-fx-background-radius: 0px;
@@ -25,8 +33,12 @@
 	-fx-scale-y: 1px;
 }
 
-.rootBackground {
+.widgetBackground {
 	-fx-background-image: url(../images/background.png);
+}
+
+.settingsBackground {
+	-fx-background-image: url(../images/background2.png);
 }
 
 

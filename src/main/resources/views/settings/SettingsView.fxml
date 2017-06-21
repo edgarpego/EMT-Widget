@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="rootBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.settings.SettingsController">
+<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="settingsBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.settings.SettingsController">
    <children>
-      <Button fx:id="confirmButton" mnemonicParsing="false" text="Button" />
+      <Button mnemonicParsing="false" onAction="#openWidgetViewConfirm" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #2ecc71;" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="2.0">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="confirmIcon" />
+         </graphic>
+         <tooltip>
+            <Tooltip text="Save" />
+         </tooltip></Button>
+      <Button mnemonicParsing="false" onAction="#openWidgetViewCancel" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #e74c3c;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="cancelIcon" />
+         </graphic>
+         <tooltip>
+            <Tooltip text="Cancel" />
+         </tooltip>
+      </Button>
+      <ComboBox editable="true" layoutX="77.0" layoutY="13.0" prefHeight="30.0" prefWidth="300.0" promptText="Write the name of the bus stop" AnchorPane.topAnchor="10.0" />
    </children>
 </AnchorPane>

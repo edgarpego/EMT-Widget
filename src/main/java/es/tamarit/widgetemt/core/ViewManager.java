@@ -11,6 +11,8 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import es.tamarit.widgetemt.settings.SettingsController;
+import es.tamarit.widgetemt.widget.WidgetController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -24,13 +26,13 @@ public class ViewManager {
 	
 	private static final Logger LOGGER = LogManager.getLogger(ViewManager.class);
 	
+	private Properties properties;
+	
 	private Stage primaryStage;
 	private Stage secondaryStage;
 	private Scene scene;
 	
-	private AnchorPane widgetView;
-	
-	private Properties properties;
+	private AnchorPane currentView;
 	
 	public ViewManager(Stage stage) {
 		
@@ -44,8 +46,12 @@ public class ViewManager {
 			primaryStage.setWidth(1);
 			primaryStage.setHeight(1);
 			
-			widgetView = FXMLLoader.load(MainApp.class.getResource("/views/widget/WidgetView.fxml"));
-			scene = new Scene(widgetView);
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			currentView = fxmlLoader.load(getClass().getResource(WidgetController.URL_VIEW).openStream());
+			WidgetController controller = (WidgetController) fxmlLoader.getController();
+			controller.setViewManager(this);
+			
+			scene = new Scene(currentView);
 			
 			loadStyleSheets();
 			loadDataFromProperties();
@@ -55,10 +61,51 @@ public class ViewManager {
 			secondaryStage.initStyle(StageStyle.TRANSPARENT);
 			secondaryStage.initOwner(primaryStage);
 			
+			loadWidgetView();
+			
 			primaryStage.show();
 			secondaryStage.show();
-		} catch (IOException e) {
+		} catch (
+		
+		IOException e) {
 			LOGGER.error("Error trying to load the WidgetView.", e);
+		}
+	}
+	
+	public void loadWidgetView() {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			currentView = fxmlLoader.load(getClass().getResource(WidgetController.URL_VIEW).openStream());
+			WidgetController controller = (WidgetController) fxmlLoader.getController();
+			controller.setViewManager(this);
+			
+			scene = new Scene(currentView);
+			
+			loadStyleSheets();
+			
+			secondaryStage.setScene(scene);
+			
+		} catch (IOException e) {
+			LOGGER.error("Error trying to load the view.", e);
+		}
+	}
+	
+	public void loadSettingsView() {
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			currentView = fxmlLoader.load(getClass().getResource(SettingsController.URL_VIEW).openStream());
+			SettingsController controller = (SettingsController) fxmlLoader.getController();
+			controller.setViewManager(this);
+			
+			scene = new Scene(currentView);
+			
+			loadStyleSheets();
+			
+			secondaryStage.setScene(scene);
+			
+		} catch (IOException e) {
+			LOGGER.error("Error trying to load the view.", e);
 		}
 	}
 	
@@ -90,7 +137,7 @@ public class ViewManager {
 	private void setListeners() {
 		
 		final Delta dragDelta = new Delta();
-		widgetView.setOnMousePressed(new EventHandler<MouseEvent>() {
+		currentView.setOnMousePressed(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -100,7 +147,7 @@ public class ViewManager {
 				scene.setCursor(Cursor.MOVE);
 			}
 		});
-		widgetView.setOnMouseReleased(new EventHandler<MouseEvent>() {
+		currentView.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -119,7 +166,7 @@ public class ViewManager {
 				}
 			}
 		});
-		widgetView.setOnMouseDragged(new EventHandler<MouseEvent>() {
+		currentView.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -127,7 +174,7 @@ public class ViewManager {
 				getSecondaryStage().setY(mouseEvent.getScreenY() + dragDelta.y);
 			}
 		});
-		widgetView.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		currentView.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent mouseEvent) {
@@ -136,7 +183,7 @@ public class ViewManager {
 				}
 			}
 		});
-		widgetView.setOnMouseExited(new EventHandler<MouseEvent>() {
+		currentView.setOnMouseExited(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent mouseEvent) {

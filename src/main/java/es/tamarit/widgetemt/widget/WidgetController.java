@@ -17,6 +17,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import es.tamarit.widgetemt.core.ViewManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,6 +28,7 @@ import javafx.scene.web.WebView;
 public class WidgetController {
 	
 	private static final Logger LOGGER = LogManager.getLogger(WidgetController.class);
+	public static final String URL_VIEW = "/views/widget/WidgetView.fxml";
 	
 	@FXML
 	private WebView myWebView;
@@ -35,6 +37,7 @@ public class WidgetController {
 	@FXML
 	private Button refreshButton;
 	
+	private ViewManager viewManager;
 	private WebEngine myWebEngine;
 	private Properties properties;
 	private String response;
@@ -137,45 +140,14 @@ public class WidgetController {
 		return sb.toString();
 	}
 	
+	public void setViewManager(ViewManager viewManager) {
+		
+		this.viewManager = viewManager;
+	}
+	
 	@FXML
 	private void openSettingsWindow() {
 		
-		// try {
-		// Stage settingsStage = new Stage();
-		// settingsStage.setTitle("EMT-Widget Settings");
-		// settingsStage.initStyle(StageStyle.UTILITY);
-		// settingsStage.setOpacity(0);
-		// settingsStage.setWidth(1);
-		// settingsStage.setHeight(1);
-		//
-		// // FXMLLoader fxmlLoader = new FXMLLoader();
-		// // AnchorPane settingsView = fxmlLoader.load(getClass().getResource("/views/widget/WidgetView.fxml").openStream());
-		// // WidgetController widgetController = (WidgetController) fxmlLoader.getController();
-		// AnchorPane settingsView = FXMLLoader.load(WidgetController.class.getResource("/views/settings/SettingsView.fxml"));
-		// settingsView.setUserData(this);
-		// Scene settingsScene = new Scene(settingsView);
-		//
-		// loadStyleSheets(settingsScene);
-		//
-		// Stage secondaryStage = new Stage();
-		// secondaryStage.setScene(settingsScene);
-		// secondaryStage.initStyle(StageStyle.TRANSPARENT);
-		// secondaryStage.initOwner(settingsStage);
-		//
-		// settingsStage.show();
-		// secondaryStage.show();
-		//
-		// } catch (IOException e) {
-		// LOGGER.error("Error trying to load the WidgetView.", e);
-		// }
+		viewManager.loadSettingsView();
 	}
-	
-	// private void loadStyleSheets(Scene scene) {
-	//
-	// String[] styleSheets = {
-	// "/css/style.css",
-	// };
-	// scene.getStylesheets().addAll(styleSheets);
-	// }
-	//
 }
