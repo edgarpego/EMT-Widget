@@ -62,4 +62,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /target/
-.classpath
+*.classpath
