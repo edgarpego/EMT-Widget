@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.core.ViewManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 
 public class SettingsController {
 	
@@ -15,9 +15,7 @@ public class SettingsController {
 	private ViewManager viewManager;
 	
 	@FXML
-	private Button confirmButton;
-	@FXML
-	private Button cancelButton;
+	private ComboBox busStopCombo;
 	
 	@FXML
 	public void initialize() {

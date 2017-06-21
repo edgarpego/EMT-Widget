@@ -10,7 +10,7 @@
    <children>
       <Button mnemonicParsing="false" onAction="#openWidgetViewConfirm" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #2ecc71;" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="2.0">
          <graphic>
-            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="confirmIcon" />
+            <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" styleClass="confirmIcon" />
          </graphic>
          <tooltip>
             <Tooltip text="Save" />
@@ -23,6 +23,6 @@
             <Tooltip text="Cancel" />
          </tooltip>
       </Button>
-      <ComboBox editable="true" layoutX="77.0" layoutY="13.0" prefHeight="30.0" prefWidth="300.0" promptText="Write the name of the bus stop" AnchorPane.topAnchor="10.0" />
+      <ComboBox fx:id="busStopCombo" editable="true" layoutX="77.0" layoutY="13.0" prefHeight="30.0" prefWidth="300.0" promptText="Write the name of the bus stop" AnchorPane.topAnchor="10.0" />
    </children>
 </AnchorPane>
