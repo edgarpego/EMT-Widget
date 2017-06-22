@@ -28,6 +28,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
 public class SettingsController {
 
@@ -38,18 +39,20 @@ public class SettingsController {
     private String response;
 
     @FXML
+    private TextField textField;
+    @FXML
     private ComboBox<String> busStopCombo;
-    //    @FXML
-    //    private TextField textField;
 
     @FXML
     public void initialize() {
 
         LOGGER.info("Settings");
-        busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
+        //        busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
+        textField.textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
 
         Platform.runLater(() -> {
-            busStopCombo.getEditor().requestFocus();
+            textField.requestFocus();
+            //            busStopCombo.getEditor().requestFocus();
         });
     }
 
@@ -63,7 +66,8 @@ public class SettingsController {
             inputStream.close();
 
             OutputStream output = new FileOutputStream("application.properties");
-            properties.setProperty("bus.stop.name", busStopCombo.getEditor().getText());
+            //            properties.setProperty("bus.stop.name", busStopCombo.getEditor().getText());
+            properties.setProperty("bus.stop.name", busStopCombo.getValue());
             properties.store(output, null);
             output.close();
         } catch (FileNotFoundException e) {
@@ -83,7 +87,7 @@ public class SettingsController {
     private void textEditor(String textBefore, String textAfter) {
 
         busStopCombo.getItems().clear();
-        String text = busStopCombo.getEditor().getText();
+        String text = textAfter;
 
         if (!text.isEmpty()) {
 
