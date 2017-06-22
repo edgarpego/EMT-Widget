@@ -25,6 +25,7 @@ import org.jsoup.select.Elements;
 
 import es.tamarit.widgetemt.core.ViewManager;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
@@ -38,10 +39,18 @@ public class SettingsController {
 
     @FXML
     private ComboBox<String> busStopCombo;
+    //    @FXML
+    //    private TextField textField;
 
     @FXML
     public void initialize() {
+
         LOGGER.info("Settings");
+        busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
+
+        Platform.runLater(() -> {
+            busStopCombo.getEditor().requestFocus();
+        });
     }
 
     @FXML
@@ -71,12 +80,9 @@ public class SettingsController {
         viewManager.loadWidgetView();
     }
 
-    @FXML
-    private void keyPressed() {
+    private void textEditor(String textBefore, String textAfter) {
 
-        //LOGGER.info("Key Pressed: " + busStopCombo.getEditor().getText());
         busStopCombo.getItems().clear();
-        busStopCombo.show();
         String text = busStopCombo.getEditor().getText();
 
         if (!text.isEmpty()) {
@@ -103,6 +109,10 @@ public class SettingsController {
                                 //LOGGER.info(element.text());
                                 busStopCombo.getItems().add(element.text());
                             }
+
+                            busStopCombo.hide();
+                            busStopCombo.setVisibleRowCount(busStopCombo.getItems().size());
+                            busStopCombo.show();
                         }
                     });
                 }
