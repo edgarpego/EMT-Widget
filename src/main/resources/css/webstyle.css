@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
 
 .imagenParada {
     position: relative;
@@ -8,6 +8,6 @@
 .llegadaHome {
 	position: relative;
 	top: -5px;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Roboto Slab', serif;
 	font-size: 15px;
 }
