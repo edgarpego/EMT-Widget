@@ -57,23 +57,31 @@ public class SettingsController {
     @FXML
     private void openWidgetViewConfirm() {
 
-        try {
-            Properties properties = new Properties();
-            InputStream inputStream = new FileInputStream("application.properties");
-            properties.load(inputStream);
-            inputStream.close();
+        if (busStopCombo.getValue() == null) {
+            openWidgetViewCancel();
+        } else {
+            if (busStopCombo.getValue().isEmpty()) {
+                openWidgetViewCancel();
+            } else {
+                try {
+                    Properties properties = new Properties();
+                    InputStream inputStream = new FileInputStream(ViewManager.FILE_SETTINGS);
+                    properties.load(inputStream);
+                    inputStream.close();
 
-            OutputStream output = new FileOutputStream("application.properties");
-            properties.setProperty("bus.stop.name", busStopCombo.getValue());
-            properties.store(output, null);
-            output.close();
-        } catch (FileNotFoundException e) {
-            LOGGER.error("Error trying open the file.", e);
-        } catch (IOException e) {
-            LOGGER.error("Error trying to save the new data to the file.", e);
+                    OutputStream output = new FileOutputStream(ViewManager.FILE_SETTINGS);
+                    properties.setProperty("bus.stop.name", busStopCombo.getValue());
+                    properties.store(output, null);
+                    output.close();
+                } catch (FileNotFoundException e) {
+                    LOGGER.error("Error trying open the file.", e);
+                } catch (IOException e) {
+                    LOGGER.error("Error trying to save the new data to the file.", e);
+                }
+
+                viewManager.loadWidgetView();
+            }
         }
-
-        viewManager.loadWidgetView();
     }
 
     @FXML

@@ -1,11 +1,13 @@
 package es.tamarit.widgetemt.core;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +27,7 @@ import javafx.stage.StageStyle;
 public class ViewManager {
 
     private static final Logger LOGGER = LogManager.getLogger(ViewManager.class);
+    public static final String FILE_SETTINGS = System.getProperty("user.home") + File.separator + "EMT-Widget" + File.separator + "widget.settings";
 
     private Properties properties;
 
@@ -37,6 +40,8 @@ public class ViewManager {
     public ViewManager(Stage stage) {
 
         try {
+            checkPropertyFiles();
+
             this.primaryStage = stage;
             this.secondaryStage = new Stage();
 
@@ -61,8 +66,6 @@ public class ViewManager {
             secondaryStage.initStyle(StageStyle.TRANSPARENT);
             secondaryStage.initOwner(primaryStage);
 
-            loadWidgetView();
-
             primaryStage.show();
             secondaryStage.show();
         } catch (
@@ -82,6 +85,7 @@ public class ViewManager {
             scene = new Scene(currentView);
 
             loadStyleSheets();
+            setListeners();
 
             secondaryStage.setScene(scene);
 
@@ -101,6 +105,7 @@ public class ViewManager {
             scene = new Scene(currentView);
 
             loadStyleSheets();
+            setListeners();
 
             secondaryStage.setScene(scene);
 
@@ -115,11 +120,29 @@ public class ViewManager {
         scene.getStylesheets().addAll(styleSheets);
     }
 
+    private void checkPropertyFiles() {
+        try {
+            File file = new File(FILE_SETTINGS);
+
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+                PrintWriter writer = new PrintWriter(file);
+                writer.println("widget.position.x=50");
+                writer.println("widget.position.y=50");
+                writer.println("bus.stop.name=824");
+                writer.close();
+            }
+        } catch (IOException e) {
+            LOGGER.error("Error trying to create the settings file.", e);
+        }
+    }
+
     private void loadDataFromProperties() {
 
         try {
             properties = new Properties();
-            InputStream inputStream = new FileInputStream("application.properties");
+            InputStream inputStream = new FileInputStream(FILE_SETTINGS);
             properties.load(inputStream);
             inputStream.close();
 
@@ -127,6 +150,7 @@ public class ViewManager {
             getPrimatyStage().setY(Double.valueOf(properties.getProperty("widget.position.y")));
             getSecondaryStage().setX(Double.valueOf(properties.getProperty("widget.position.x")));
             getSecondaryStage().setY(Double.valueOf(properties.getProperty("widget.position.y")));
+
         } catch (IOException e) {
             LOGGER.error("Error trying to load data from properties file.", e);
         }
@@ -152,7 +176,7 @@ public class ViewManager {
                 scene.setCursor(Cursor.HAND);
                 //LOGGER.info("x: " + getPrimatyStage().getX() + " " + "y: " + getPrimatyStage().getY());
                 try {
-                    OutputStream output = new FileOutputStream("application.properties");
+                    OutputStream output = new FileOutputStream(FILE_SETTINGS);
                     properties.setProperty("widget.position.x", String.valueOf(getSecondaryStage().getX()));
                     properties.setProperty("widget.position.y", String.valueOf(getSecondaryStage().getY()));
                     properties.store(output, null);

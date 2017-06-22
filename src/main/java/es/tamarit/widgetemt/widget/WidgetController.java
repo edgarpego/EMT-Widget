@@ -48,9 +48,8 @@ public class WidgetController {
             myWebEngine = myWebView.getEngine();
             myWebEngine.setUserStyleSheetLocation(getClass().getResource("/css/webstyle.css").toString());
 
-            //            System.getProperty("user.home");
             properties = new Properties();
-            InputStream inputStream = new FileInputStream("application.properties");
+            InputStream inputStream = new FileInputStream(ViewManager.FILE_SETTINGS);
             properties.load(inputStream);
             inputStream.close();
 
