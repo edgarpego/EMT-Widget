@@ -2,6 +2,14 @@
 	-fx-background-color: transparent;
 }
 
+.widgetBackground {
+	-fx-background-image: url(../images/background.png);
+}
+
+.settingsBackground {
+	-fx-background-image: url(../images/background2.png);
+}
+
 .reloadIcon {
 	-fx-image: url(../images/reload.png);
 }
@@ -33,14 +41,9 @@
 	-fx-scale-y: 1px;
 }
 
-.widgetBackground {
-	-fx-background-image: url(../images/background.png);
+.tooltip {
+	-fx-font-size: 1.1em;
 }
-
-.settingsBackground {
-	-fx-background-image: url(../images/background2.png);
-}
-
 
 /*------------------------- SCROLLBAR STYLE -------------------------- */
 /* http://blog.ngopal.com.np/2012/07/11/customize-scrollbar-via-css/ */

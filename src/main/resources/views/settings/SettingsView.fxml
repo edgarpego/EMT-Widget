@@ -23,6 +23,6 @@
             <Tooltip text="Cancel" />
          </tooltip>
       </Button>
-      <ComboBox fx:id="busStopCombo" editable="true" layoutX="77.0" layoutY="13.0" prefHeight="30.0" prefWidth="300.0" promptText="Write the name of the bus stop" AnchorPane.topAnchor="10.0" />
+      <ComboBox fx:id="busStopCombo" editable="true" layoutX="77.0" layoutY="13.0" onKeyReleased="#keyPressed" prefHeight="30.0" prefWidth="300.0" promptText="Write the name of the bus stop" AnchorPane.topAnchor="35.0" />
    </children>
 </AnchorPane>

@@ -22,7 +22,7 @@
          <children>
             <Button fx:id="refreshButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reloadHandler" style="-fx-background-color: #a5eb78;">
                <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="reloadIcon" />
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="reloadIcon" />
                </graphic>
                <tooltip>
                   <Tooltip text="Refresh" />
