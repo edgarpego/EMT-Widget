@@ -2,13 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>WidgetEMT</groupId>
-	<artifactId>WidgetEMT</artifactId>
+	<groupId>EMT-Widget</groupId>
+	<artifactId>EMT-Widget</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
 
 	<properties>
 		<jdk.version>1.8</jdk.version>
 	</properties>
+
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
@@ -39,6 +41,7 @@
 
 	<!-- mvn clean compile assembly:single -->
 	<build>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -49,9 +52,11 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
+					<finalName>${project.artifactId}_v${project.version}</finalName>
 					<archive>
 						<manifest>
 							<mainClass>es.tamarit.widgetemt.core.MainApp</mainClass>
@@ -60,9 +65,11 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+					<appendAssemblyId>false</appendAssemblyId>
 				</configuration>
 			</plugin>
 		</plugins>
+
 	</build>
 
 </project>
