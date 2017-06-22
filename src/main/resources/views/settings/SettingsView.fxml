@@ -24,7 +24,7 @@
             <Tooltip text="Cancel" />
          </tooltip>
       </Button>
-      <TextField fx:id="textField" layoutX="77.0" layoutY="12.0" prefHeight="30.0" prefWidth="300.0" AnchorPane.topAnchor="15.0" />
-      <ComboBox fx:id="busStopCombo" layoutX="77.0" layoutY="13.0" prefHeight="30.0" prefWidth="300.0" AnchorPane.topAnchor="55.0" />
+      <TextField fx:id="textField" layoutX="77.0" layoutY="12.0" prefHeight="30.0" prefWidth="300.0" promptText="Type here the bus stop name or number" AnchorPane.topAnchor="15.0" />
+      <ComboBox fx:id="busStopCombo" layoutX="77.0" layoutY="13.0" prefHeight="30.0" prefWidth="300.0" visible="false" AnchorPane.topAnchor="55.0" />
    </children>
 </AnchorPane>
