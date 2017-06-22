@@ -47,12 +47,10 @@ public class SettingsController {
     public void initialize() {
 
         LOGGER.info("Settings");
-        //        busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
         textField.textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
 
         Platform.runLater(() -> {
             textField.requestFocus();
-            //            busStopCombo.getEditor().requestFocus();
         });
     }
 
@@ -66,7 +64,6 @@ public class SettingsController {
             inputStream.close();
 
             OutputStream output = new FileOutputStream("application.properties");
-            //            properties.setProperty("bus.stop.name", busStopCombo.getEditor().getText());
             properties.setProperty("bus.stop.name", busStopCombo.getValue());
             properties.store(output, null);
             output.close();

@@ -45,6 +45,31 @@
 	-fx-font-size: 1.1em;
 }
 
+.text-field {
+	-fx-background-color: #fff;
+	-fx-border-radius: 0px;
+	-fx-border-color: #3498db;
+	-fx-border-width: 1.5px;
+}
+
+.combo-box-base {
+	-fx-background-color: #fff;
+	-fx-border-radius: 0px;
+	-fx-border-color: #3498db;
+	-fx-border-width: 1.5px;
+}
+
+.combo-box-base .arrow {
+	-fx-background-color: #3498db;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #fff;
+    -fx-border-color: #3498db;
+	-fx-border-width: 1px;
+	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0) , 0, 0 , 0 , 0 );
+}
+
 /*------------------------- SCROLLBAR STYLE -------------------------- */
 /* http://blog.ngopal.com.np/2012/07/11/customize-scrollbar-via-css/ */
 
