@@ -83,13 +83,19 @@ public class WidgetController {
             } finally {
 
                 Platform.runLater(() -> {
-                    if (response != null) {
-                        myWebEngine.loadContent("<html><body>" + response + "</body></html>");
+                    if (response != null && !response.isEmpty()) {
+                        if (response.contains("No disponible. Actualiza en unos segundos.")) {
+                            printTimes();
+                        } else {
+                            myWebEngine.loadContent("<html><body>" + response + "</body></html>");
+                            refreshButton.setDisable(false);
+                            progress.setVisible(false);
+                        }
                     } else {
-                        myWebEngine.loadContent("<html><body><h3>Try again!</h3></body></html>");
+                        myWebEngine.loadContent("<html><body><h3>There was an error, Try again in a few seconds!</h3></body></html>");
+                        refreshButton.setDisable(false);
+                        progress.setVisible(false);
                     }
-                    refreshButton.setDisable(false);
-                    progress.setVisible(false);
                 });
             }
         }).start();
