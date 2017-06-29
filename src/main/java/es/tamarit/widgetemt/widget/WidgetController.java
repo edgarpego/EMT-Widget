@@ -45,6 +45,7 @@ public class WidgetController {
     @FXML
     public void initialize() {
         try {
+            myWebView.setContextMenuEnabled(false);
             myWebEngine = myWebView.getEngine();
             myWebEngine.setUserStyleSheetLocation(getClass().getResource("/css/webstyle.css").toString());
 
