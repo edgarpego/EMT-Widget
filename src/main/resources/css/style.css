@@ -10,10 +10,6 @@
 	-fx-background-image: url(../images/background.png);
 }
 
-.settingsBackground {
-	-fx-background-image: url(../images/background2.png);
-}
-
 .reloadIcon {
 	-fx-image: url(../images/reload.png);
 }
@@ -35,15 +31,16 @@
 	-fx-background-radius: 0px;
 }
 
-.button:hover {
-	-fx-scale-x: 1.1px;
-	-fx-scale-y: 1.1px;
+.button:hover .image-view {
+	-fx-scale-x: 1.05px;
+	-fx-scale-y: 1.05px;
 }
 
-.button:pressed {
+.button:pressed .image-view {
 	-fx-scale-x: 1px;
 	-fx-scale-y: 1px;
 }
+
 
 .tooltip {
 	-fx-font-size: 1.1em;
@@ -56,18 +53,18 @@
 	-fx-border-width: 1px;
 }
 
-/*.combo-box-base {
+.combo-box-base {
 	-fx-background-color: #fff;
 	-fx-border-radius: 0px;
 	-fx-border-color: #3498db;
 	-fx-border-width: 1px;
-}*/
+}
 
 .combo-box-base .arrow-button {
 	-fx-background-color: #fff;
 	-fx-border-radius: 0px;
 	-fx-border-color: #3498db;
-	-fx-border-width: 1px 1px 1px 0px;
+	-fx-border-width: 0px 0px 0px 1px;
 }
 
 .combo-box-base .arrow {
@@ -79,6 +76,10 @@
     -fx-border-color: #3498db;
 	-fx-border-width: 1px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0), 0, 0, 0, 0);
+}
+
+.combo-box-base .text-field {
+	-fx-border-width: 0px;
 }
 
 /*------------------------- SCROLLBAR STYLE -------------------------- */
