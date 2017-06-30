@@ -1,0 +1,142 @@
+.root {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-background-color: transparent;
+	-fx-font-family:  "Lato", sans-serif;
+	-fx-font-size: 1.3em;
+}
+
+/*------------------------- BUTTON STYLE --------------------------- */
+.button {
+	-fx-border-radius: 0px;
+	-fx-background-radius: 0px;
+}
+
+.button:hover .image-view {
+	-fx-scale-x: 1.05px;
+	-fx-scale-y: 1.05px;
+}
+
+.button:pressed .image-view {
+	-fx-scale-x: 1px;
+	-fx-scale-y: 1px;
+}
+
+/*------------------------- TOOLTIP STYLE -------------------------- */
+.tooltip {
+	-fx-font-size: 1.1em;
+}
+
+/*----------------------- TEXT FIELD STYLE ------------------------- */
+.text-field {
+	-fx-background-color: #fff;
+	-fx-border-radius: 0px;
+	-fx-border-color: #3498db;
+	-fx-border-width: 1px;
+}
+
+/*-------------------------- LABEL STYLE --------------------------- */
+.label {
+	-fx-text-fill: #3498db;
+}
+
+/*------------------------ CHECK BOX STYLE ------------------------- */
+.check-box {
+	-fx-text-fill: #3498db;
+	-fx-font-size: 15px;
+}
+
+.check-box .box {
+	-fx-border-radius: 0px;
+	-fx-border-color: #3498db;
+	-fx-border-width: 1px;
+	-fx-background-color: white;
+	-fx-background-insets: 0px;
+}
+
+.check-box:selected .box {
+	-fx-background-color: #3498db;
+}
+
+.check-box:selected .mark {
+	-fx-background-color: #fff;
+}
+
+/*------------------------- COMBOBOX STYLE ------------------------- */
+.combo-box-base {
+	-fx-background-color: #fff;
+	-fx-border-radius: 0px;
+	-fx-border-color: #3498db;
+	-fx-border-width: 1px;
+}
+
+.combo-box-base .arrow-button {
+	-fx-background-color: #3498db;
+	-fx-border-radius: 0px;
+	-fx-border-color: #3498db;
+	-fx-border-width: 1px;
+	-fx-background-insets: 0px;
+}
+
+.combo-box-base .arrow {
+	-fx-background-color: #fff;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #fff;
+    -fx-border-color: #3498db;
+	-fx-border-width: 1px;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0), 0, 0, 0, 0);
+}
+
+.combo-box-base .text-field {
+	-fx-border-width: 0px;
+}
+
+/*------------------------ SCROLLBAR STYLE ------------------------- */
+/* http://blog.ngopal.com.np/2012/07/11/customize-scrollbar-via-css/ */
+
+/*.scroll-bar:vertical {
+    -fx-opacity: 0;
+}*/
+
+/* The main scrollbar **track** CSS class  */
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+	-fx-background-color: #fff;
+	-fx-border-color: #fff;
+	-fx-background-radius: 0em;
+	-fx-border-radius:2em;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+	-fx-background-radius: 0em;
+	-fx-padding: 0px 0px 10px 0px;
+
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+	-fx-background-radius: 0em;
+	-fx-padding: 0px 10px 0px 0px;
+
+}
+
+ .scroll-bar .increment-arrow,
+ .scroll-bar .decrement-arrow {
+	-fx-shape: " ";	
+	-fx-padding: 0;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black,90%);
+	-fx-background-insets: 2, 0, 0;
+	-fx-background-radius: 2em;
+}
