@@ -13,6 +13,9 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +32,7 @@ public class WidgetController {
 
     private static final Logger LOGGER = LogManager.getLogger(WidgetController.class);
     public static final String URL_VIEW = "/views/widget/WidgetView.fxml";
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @FXML
     private WebView myWebView;
@@ -54,7 +58,11 @@ public class WidgetController {
             properties.load(inputStream);
             inputStream.close();
 
-            printTimes();
+            if (Boolean.valueOf(properties.get("auto.refresh.data").toString()) == Boolean.TRUE) {
+                scheduler.scheduleAtFixedRate(() -> printTimes(), 0, 30, TimeUnit.SECONDS);
+            } else {
+                printTimes();
+            }
         } catch (FileNotFoundException e) {
             LOGGER.error("Error trying to get the properties file", e);
         } catch (IOException e) {
@@ -70,9 +78,11 @@ public class WidgetController {
     private void printTimes() {
         LOGGER.info("Printing the times");
 
-        progress.setVisible(true);
-        myWebEngine.loadContent("");
-        refreshButton.setDisable(true);
+        Platform.runLater(() -> {
+            progress.setVisible(true);
+            refreshButton.setDisable(true);
+            myWebEngine.loadContent("");
+        });
 
         new Thread(() -> {
             try {
@@ -148,13 +158,12 @@ public class WidgetController {
     }
 
     public void setViewManager(ViewManager viewManager) {
-
         this.viewManager = viewManager;
     }
 
     @FXML
     private void openSettingsWindow() {
-
+        scheduler.shutdown();
         viewManager.loadSettingsView();
     }
 }

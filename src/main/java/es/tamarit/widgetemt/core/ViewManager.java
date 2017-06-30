@@ -63,6 +63,8 @@ public class ViewManager {
 
     public void loadWidgetView() {
         try {
+            loadDataFromProperties();
+
             FXMLLoader fxmlLoader = new FXMLLoader();
             currentView = fxmlLoader.load(getClass().getResource(WidgetController.URL_VIEW).openStream());
             WidgetController controller = (WidgetController) fxmlLoader.getController();
@@ -70,7 +72,6 @@ public class ViewManager {
 
             scene = new Scene(currentView);
 
-            loadDataFromProperties();
             loadStyleSheets();
             setListeners();
 
@@ -132,23 +133,34 @@ public class ViewManager {
     private void checkPropertiesIntegrity() {
 
         try {
-            OutputStream output = new FileOutputStream(ViewManager.FILE_SETTINGS);
+            boolean neededRestore = false;
 
             if (properties.get("widget.position.x") == null) {
                 properties.setProperty("widget.position.x", "50");
+                neededRestore = true;
             }
             if (properties.get("widget.position.y") == null) {
                 properties.setProperty("widget.position.y", "50");
+                neededRestore = true;
             }
             if (properties.get("bus.stop.name") == null) {
                 properties.setProperty("bus.stop.name", "824");
+                neededRestore = true;
             }
             if (properties.get("always.on.front") == null) {
                 properties.setProperty("always.on.front", "false");
+                neededRestore = true;
+            }
+            if (properties.get("auto.refresh.data") == null) {
+                properties.setProperty("auto.refresh.data", "false");
+                neededRestore = true;
             }
 
-            properties.store(output, null);
-            output.close();
+            if (neededRestore) {
+                OutputStream output = new FileOutputStream(ViewManager.FILE_SETTINGS);
+                properties.store(output, null);
+                output.close();
+            }
 
         } catch (FileNotFoundException e) {
             LOGGER.error("Error trying open the file.", e);
@@ -168,7 +180,8 @@ public class ViewManager {
                 writer.println("widget.position.x=50");
                 writer.println("widget.position.y=50");
                 writer.println("bus.stop.name=824");
-                writer.println("always.on.front=0");
+                writer.println("always.on.front=false");
+                writer.println("auto.refresh.data=false");
                 writer.close();
             }
         } catch (IOException e) {
@@ -234,10 +247,6 @@ public class ViewManager {
                 }
             }
         });
-    }
-
-    private Stage getPrimatyStage() {
-        return this.primaryStage;
     }
 
     private Stage getSecondaryStage() {

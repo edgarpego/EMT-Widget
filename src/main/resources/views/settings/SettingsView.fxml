@@ -26,5 +26,6 @@
       </Button>
       <ComboBox fx:id="busStopCombo" editable="true" layoutX="77.0" layoutY="13.0" prefHeight="30.0" prefWidth="300.0" promptText="Type the bus stop name or number" AnchorPane.topAnchor="15.0" />
       <CheckBox fx:id="alwaysOnTopCheck" layoutX="77.0" layoutY="65.0" mnemonicParsing="false" text="Always On Top" AnchorPane.bottomAnchor="15.0" />
+      <CheckBox fx:id="autoRefreshCheck" layoutX="261.0" layoutY="62.0" mnemonicParsing="false" text="Auto Refresh" AnchorPane.bottomAnchor="15.0" />
    </children>
 </AnchorPane>
