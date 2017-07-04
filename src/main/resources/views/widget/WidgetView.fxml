@@ -14,7 +14,7 @@
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="reloadIcon" />
          </graphic>
          <tooltip>
-            <Tooltip text="Refresh" />
+            <Tooltip text="%widget.button.refresh" />
          </tooltip>
       </Button>
       <WebView fx:id="myWebView" maxHeight="-1.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="51.0" AnchorPane.topAnchor="0.0" />
@@ -23,7 +23,7 @@
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="settingsIcon" />
          </graphic>
          <tooltip>
-            <Tooltip text="Settings" />
+            <Tooltip text="%widget.button.settings" />
          </tooltip>
       </Button>
       <ProgressIndicator fx:id="progress" visible="false" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0" />

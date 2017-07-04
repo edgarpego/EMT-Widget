@@ -1,4 +1,4 @@
-package es.tamarit.emtwidget;
+package es.tamarit.widgetemt;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 import org.junit.Test;
 
-public class CommandBuilder {
+public class CommandBuilderTest {
 
     @Test
     public void searchService() throws IOException {

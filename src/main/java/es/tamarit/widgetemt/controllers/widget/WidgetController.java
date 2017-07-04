@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executors;
@@ -87,7 +88,10 @@ public class WidgetController extends AbstractController {
         new Thread(() -> {
             try {
                 String stopName = properties.getProperty("bus.stop.name");
-                response = getResponse(stopName);
+                Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
+                String language = locale.getLanguage();
+                
+                response = getResponse(stopName, language);
                 
             } catch (IOException e) {
                 LOGGER.error("Error trying to get the response from the EMT server", e);
@@ -112,13 +116,13 @@ public class WidgetController extends AbstractController {
         }).start();
     }
     
-    private String getResponse(String stopName) throws IOException {
+    private String getResponse(String stopName, String language) throws IOException {
         URL url = new URL("https://www.emtvalencia.es/ciudadano/modules/mod_tiempo/busca_parada.php"); // URL to your application
         Map<String, String> params = new LinkedHashMap<String, String>();
         params.put("parada", stopName); // All parameters, also easy
         params.put("adaptados", "0");
         params.put("usuario", "Anonimo");
-        params.put("idioma", "es");
+        params.put("idioma", language);
         
         StringBuilder postData = new StringBuilder();
         // POST as URL encoded is basically key-value pairs, as with GET

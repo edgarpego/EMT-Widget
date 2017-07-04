@@ -1,31 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="settingsBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.settings.SettingsController">
+<AnchorPane prefHeight="150.0" prefWidth="400.0" styleClass="settingsBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.settings.SettingsController">
    <children>
-      <Button mnemonicParsing="false" onAction="#openWidgetViewConfirm" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #2ecc71;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Button mnemonicParsing="false" onAction="#openWidgetViewConfirm" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #2ecc71;" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <graphic>
             <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" styleClass="confirmIcon" />
          </graphic>
          <tooltip>
-            <Tooltip text="Save" />
+            <Tooltip text="%settings.button.save" />
          </tooltip></Button>
-      <Button mnemonicParsing="false" onAction="#openWidgetViewCancel" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #e74c3c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+      <Button layoutY="100.0" mnemonicParsing="false" onAction="#openWidgetViewCancel" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #e74c3c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="75.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="cancelIcon" />
          </graphic>
          <tooltip>
-            <Tooltip text="Cancel" />
+            <Tooltip text="%settings.button.cancel" />
          </tooltip>
       </Button>
-      <ComboBox fx:id="busStopCombo" editable="true" layoutX="77.0" layoutY="13.0" prefHeight="30.0" prefWidth="300.0" promptText="Type the bus stop name or number" AnchorPane.topAnchor="15.0" />
-      <CheckBox fx:id="alwaysOnTopCheck" layoutX="77.0" layoutY="65.0" mnemonicParsing="false" text="Always On Top" AnchorPane.bottomAnchor="15.0" />
-      <CheckBox fx:id="autoRefreshCheck" layoutX="261.0" layoutY="62.0" mnemonicParsing="false" text="Auto Refresh" AnchorPane.bottomAnchor="15.0" />
+      <ComboBox fx:id="busStopCombo" editable="true" layoutX="77.0" layoutY="13.0" prefHeight="30.0" promptText="%settings.combobox.busstop.proptext" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
+      <CheckBox fx:id="alwaysOnTopCheck" layoutX="77.0" layoutY="65.0" mnemonicParsing="false" text="%settings.checkbox.always.top" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="65.0" />
+      <CheckBox fx:id="autoRefreshCheck" layoutX="261.0" layoutY="62.0" mnemonicParsing="false" text="%settings.checkbox.auto.refresh" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="65.0" />
+      <HBox alignment="CENTER" prefHeight="50.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <RadioButton fx:id="spanishRadioButton" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="castellanoFlag">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></ImageView>
+               </graphic>
+               <toggleGroup>
+                  <ToggleGroup fx:id="languageGroup" />
+               </toggleGroup>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <tooltip>
+                  <Tooltip text="%settings.language.spanish" />
+               </tooltip>
+            </RadioButton>
+            <RadioButton fx:id="catalanRadioButton" mnemonicParsing="false" toggleGroup="$languageGroup">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="valencianoFlag">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="%settings.language.catalan" />
+               </tooltip>
+            </RadioButton>
+            <RadioButton fx:id="englishRadioButton" mnemonicParsing="false" toggleGroup="$languageGroup">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="inglesFlag">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="%settings.language.english" />
+               </tooltip>
+            </RadioButton>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

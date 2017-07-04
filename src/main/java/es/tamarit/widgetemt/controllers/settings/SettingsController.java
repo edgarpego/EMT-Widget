@@ -30,6 +30,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
 public class SettingsController extends AbstractController {
     
@@ -45,6 +47,14 @@ public class SettingsController extends AbstractController {
     private CheckBox alwaysOnTopCheck;
     @FXML
     private CheckBox autoRefreshCheck;
+    @FXML
+    private ToggleGroup languageGroup;
+    @FXML
+    private RadioButton spanishRadioButton;
+    @FXML
+    private RadioButton catalanRadioButton;
+    @FXML
+    private RadioButton englishRadioButton;
     
     @FXML
     public void initialize() {
@@ -62,6 +72,23 @@ public class SettingsController extends AbstractController {
         busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
         alwaysOnTopCheck.setSelected(Boolean.valueOf(properties.getProperty("always.on.front")));
         autoRefreshCheck.setSelected(Boolean.valueOf(properties.getProperty("auto.refresh.data")));
+        
+        spanishRadioButton.setUserData("es-ES");
+        catalanRadioButton.setUserData("ca-ES");
+        englishRadioButton.setUserData("en-EN");
+        
+        String locale = properties.getProperty("application.language.locale");
+        switch (locale) {
+            case "es-ES":
+                spanishRadioButton.setSelected(true);
+                break;
+            case "ca-ES":
+                catalanRadioButton.setSelected(true);
+                break;
+            case "en-EN":
+                englishRadioButton.setSelected(true);
+                break;
+        }
     }
     
     @FXML
@@ -74,6 +101,7 @@ public class SettingsController extends AbstractController {
             
             properties.setProperty("always.on.front", String.valueOf(alwaysOnTopCheck.isSelected()));
             properties.setProperty("auto.refresh.data", String.valueOf(autoRefreshCheck.isSelected()));
+            properties.setProperty("application.language.locale", languageGroup.getSelectedToggle().getUserData().toString());
             
             OutputStream output = new FileOutputStream(ViewManager.FILE_SETTINGS);
             properties.store(output, null);

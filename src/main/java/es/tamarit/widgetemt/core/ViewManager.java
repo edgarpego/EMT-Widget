@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +36,6 @@ public class ViewManager {
     private Stage primaryStage;
     private Stage secondaryStage;
     private Scene scene;
-    
     private AnchorPane currentView;
     
     public ViewManager(Stage stage) {
@@ -66,6 +67,7 @@ public class ViewManager {
             loadDataFromProperties();
             
             FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setResources(getResourceBundle());
             currentView = fxmlLoader.load(getClass().getResource(WidgetController.URL_VIEW).openStream());
             WidgetController controller = (WidgetController) fxmlLoader.getController();
             controller.setViewManager(this);
@@ -87,6 +89,7 @@ public class ViewManager {
         
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setResources(getResourceBundle());
             currentView = fxmlLoader.load(getClass().getResource(SettingsController.URL_VIEW).openStream());
             SettingsController controller = (SettingsController) fxmlLoader.getController();
             controller.setViewManager(this);
@@ -155,6 +158,10 @@ public class ViewManager {
                 properties.setProperty("auto.refresh.data", "false");
                 neededRestore = true;
             }
+            if (properties.get("application.language.locale") == null) {
+                properties.setProperty("application.language.locale", "es-ES");
+                neededRestore = true;
+            }
             
             if (neededRestore) {
                 OutputStream output = new FileOutputStream(ViewManager.FILE_SETTINGS);
@@ -182,11 +189,20 @@ public class ViewManager {
                 writer.println("bus.stop.name=824");
                 writer.println("always.on.front=false");
                 writer.println("auto.refresh.data=false");
+                writer.println("application.language.locale=es-ES");
                 writer.close();
             }
         } catch (IOException e) {
             LOGGER.error("Error trying to create the settings file.", e);
         }
+    }
+    
+    private ResourceBundle getResourceBundle() {
+        
+        Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
+        LanguageManager languageManager = new LanguageManager(locale);
+        
+        return languageManager.getResourceBundle();
     }
     
     private void setListeners() {

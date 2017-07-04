@@ -93,6 +93,37 @@
 	-fx-border-width: 0px;
 }
 
+/*----------------------- RADIO BUTTON STYLE ----------------------- */
+.radio-button .radio {
+    -fx-border-width: 1px;
+    -fx-border-color: #3498db;
+    -fx-background-color: white;
+    -fx-background-image: null;
+    -fx-border-radius: 15px;
+    -fx-padding: 3px;
+}
+.radio-button .radio:selected {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button -radio:armed {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button -radio:determinate {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button -radio:indeterminate {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button .dot {
+	-fx-mark-color: #3498db;
+    -fx-background-radius: 15px;
+    -fx-padding: 8px;
+}
+
 /*------------------------ SCROLLBAR STYLE ------------------------- */
 /* http://blog.ngopal.com.np/2012/07/11/customize-scrollbar-via-css/ */
 

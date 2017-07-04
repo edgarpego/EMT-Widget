@@ -1,19 +1,36 @@
+/*------------------------- BACKGROUND STYLE --------------------------- */
 .widgetBackground {
 	-fx-background-image: url(../images/background.png);
 }
 
+
+/*------------------------- BUTTON STYLE --------------------------- */
 .reloadIcon {
-	-fx-image: url(../images/reload.png);
+	-fx-image: url(../images/buttons/reload.png);
 }
 
 .settingsIcon {
-	-fx-image: url(../images/settings.png);
+	-fx-image: url(../images/buttons/settings.png);
 }
 
 .confirmIcon {
-	-fx-image: url(../images/confirm.png);
+	-fx-image: url(../images/buttons/confirm.png);
 }
 
 .cancelIcon {
-	-fx-image: url(../images/cancel.png);
+	-fx-image: url(../images/buttons/cancel.png);
+}
+
+
+/*------------------------- FLAGS STYLE --------------------------- */
+.castellanoFlag {
+	-fx-image: url(../images/flags/castellano.jpg);
+}
+
+.valencianoFlag {
+	-fx-image: url(../images/flags/valenciano.jpg);
+}
+
+.inglesFlag {
+	-fx-image: url(../images/flags/ingles.jpg);
 }
