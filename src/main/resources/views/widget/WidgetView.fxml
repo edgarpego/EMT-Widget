@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="widgetBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.widget.WidgetController">
+<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="widgetBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.widget.WidgetController">
    <children>
       <Button fx:id="refreshButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#reloadHandler" prefWidth="50.0" style="-fx-background-color: #a5eb78;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <graphic>

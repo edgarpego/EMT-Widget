@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="settingsBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.settings.SettingsController">
+<AnchorPane prefHeight="100.0" prefWidth="400.0" styleClass="settingsBackground" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.settings.SettingsController">
    <children>
       <Button mnemonicParsing="false" onAction="#openWidgetViewConfirm" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #2ecc71;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <graphic>
