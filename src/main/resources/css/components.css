@@ -10,6 +10,7 @@
 .button {
 	-fx-border-radius: 0px;
 	-fx-background-radius: 0px;
+	-fx-text-fill: #fff;
 }
 
 .button:hover .image-view {
@@ -123,6 +124,72 @@
     -fx-background-radius: 15px;
     -fx-padding: 8px;
 }
+
+/*------------------------ TABLE VIEW STYLE ------------------------- */
+.table-view {
+	-fx-border-width: 0;
+	-fx-border-color: #3498db;
+	-fx-background-color: #fff;
+}
+
+.table-view:focused {
+	-fx-background-color: #fff;
+}
+
+.table-view .filler {
+	-fx-background-color: #3498db;
+	-fx-border-color: #3498db;
+	-fx-border-width: 1;
+}
+
+.table-view .column-header-background {
+	-fx-border-width: 1;
+}
+
+.table-view .column-header-background .label {
+	/*-fx-font-size: 16px;*/
+	-fx-text-fill: white;
+	-fx-alignment: CENTER;
+}
+
+.table-view .column-header {
+	-fx-background-color: #3498db;
+	-fx-border-color: #fff;
+	-fx-border-width: 1;
+}
+
+ .table-view .table-cell {
+	/*-fx-text-fill: -fp-blue-dark;*/
+	-fx-border-color: #3498db;
+	-fx-border-width: 1;
+	/*-fx-padding: 5;*/
+}
+
+.table-row-cell {
+	/*-fx-background-color: white;*/
+	-fx-font-size: 14px;
+}
+
+.table-row-cell:selected {
+	-fx-background-color: #fff;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: #fff;
+    -fx-border-color: #fff;
+    -fx-border-width: 0px;
+}
+ 
+.table-row-cell:empty .table-cell {
+	-fx-background-color: #fff;
+    -fx-border-color: #fff;
+    -fx-border-width: 0px;
+}
+
+/*.list-cell:empty {
+    -fx-background-color: #fff;
+}
+*/
 
 /*------------------------ SCROLLBAR STYLE ------------------------- */
 /* http://blog.ngopal.com.np/2012/07/11/customize-scrollbar-via-css/ */

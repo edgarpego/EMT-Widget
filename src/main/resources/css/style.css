@@ -21,6 +21,22 @@
 	-fx-image: url(../images/buttons/cancel.png);
 }
 
+.eyeIcon {
+	-fx-image: url(../images/buttons/eye.png);
+}
+
+.addIcon {
+	-fx-image: url(../images/buttons/add.png);
+}
+
+.wheelchairIcon {
+	-fx-image: url(../images/buttons/wheelchair.png);
+}
+
+.trashIcon {
+	-fx-image: url(../images/buttons/trash.png);
+}
+
 
 /*------------------------- FLAGS STYLE --------------------------- */
 .castellanoFlag {
