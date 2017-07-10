@@ -1,9 +1,7 @@
 package es.tamarit.widgetemt.services.properties;
 
 /**
- * Interface to Read/Write in properties file
- * @author Edgar
- *
+ * Interface to Read/Write in properties files
  */
 public interface FilePropertiesService {
     

@@ -1,9 +1,3 @@
-/*------------------------- BACKGROUND STYLE --------------------------- */
-/*.widgetBackground {
-	-fx-background-image: url(../images/background.png);
-}*/
-
-
 /*------------------------- BUTTON STYLE --------------------------- */
 .reloadIcon {
 	-fx-image: url(../images/buttons/reload.png);
@@ -39,6 +33,10 @@
 
 .moveIcon {
 	-fx-image: url(../images/buttons/move.png);
+}
+
+.arrowIcon {
+	-fx-image: url(../images/buttons/arrow.png);
 }
 
 

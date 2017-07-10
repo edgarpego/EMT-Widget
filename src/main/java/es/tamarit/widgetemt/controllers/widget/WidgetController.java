@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -35,6 +36,8 @@ public class WidgetController extends AbstractController {
     @FXML
     private Button moveButton;
     @FXML
+    private Pane helpPane;
+    @FXML
     private WebView myWebView;
     
     private WebEngine myWebEngine;
@@ -49,8 +52,10 @@ public class WidgetController extends AbstractController {
         try {
             properties = new SettingsPropertiesServiceImpl();
             
-            Boolean alwaysOnTop = Boolean.valueOf(properties.getProperty("always.on.front").toString());
-            viewManager.getSecondaryStage().setAlwaysOnTop(alwaysOnTop);
+            Platform.runLater(() -> {
+                Boolean alwaysOnFront = Boolean.valueOf(properties.getProperty("always.on.front").toString());
+                viewManager.getSecondaryStage().setAlwaysOnTop(alwaysOnFront);
+            });
             
             String stopFilter = properties.getProperty("bus.stop.name");
             String[] parts = stopFilter.split(":");
@@ -85,6 +90,8 @@ public class WidgetController extends AbstractController {
                 } else {
                     printTimes();
                 }
+            } else {
+                helpPane.setVisible(true);
             }
         } catch (IOException e) {
             LOGGER.error("Error trying to load the properties", e);
