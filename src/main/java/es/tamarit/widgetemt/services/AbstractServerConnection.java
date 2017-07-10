@@ -1,4 +1,4 @@
-package es.tamarit.widgetemt.api;
+package es.tamarit.widgetemt.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;

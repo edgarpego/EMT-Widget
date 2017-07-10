@@ -1,4 +1,4 @@
-package es.tamarit.widgetemt.api.stoptimes;
+package es.tamarit.widgetemt.services.stoptimes;
 
 import java.io.IOException;
 
@@ -9,5 +9,5 @@ public interface StopTimes {
      * @return HTML response as string
      * @throws IOException
      */
-    public String getStopTimes() throws IOException;
+    public String findByNameAndLineAndAdapted() throws IOException;
 }

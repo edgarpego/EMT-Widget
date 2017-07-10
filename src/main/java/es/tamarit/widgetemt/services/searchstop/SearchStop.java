@@ -1,4 +1,4 @@
-package es.tamarit.widgetemt.api.searchstop;
+package es.tamarit.widgetemt.services.searchstop;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,5 +11,5 @@ public interface SearchStop {
      * @return a strings list of bus stop names found by the server
      * @throws IOException
      */
-    public List<String> getBusStopNames(String sugerence) throws IOException;
+    public List<String> findAll(String sugerence) throws IOException;
 }

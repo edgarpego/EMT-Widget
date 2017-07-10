@@ -1,4 +1,4 @@
-package es.tamarit.widgetemt.api.stoptimes;
+package es.tamarit.widgetemt.services.stoptimes;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -9,7 +9,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import es.tamarit.widgetemt.api.AbstractServerConnection;
+import es.tamarit.widgetemt.services.AbstractServerConnection;
 
 public class StopTimesImpl extends AbstractServerConnection implements StopTimes {
     
@@ -36,7 +36,7 @@ public class StopTimesImpl extends AbstractServerConnection implements StopTimes
     }
     
     @Override
-    public String getStopTimes() throws IOException {
+    public String findByNameAndLineAndAdapted() throws IOException {
         
         Map<String, String> params = new LinkedHashMap<String, String>();
         

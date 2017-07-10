@@ -12,10 +12,10 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import es.tamarit.widgetemt.api.searchstop.SearchStop;
-import es.tamarit.widgetemt.api.searchstop.SearchStopImpl;
 import es.tamarit.widgetemt.controllers.AbstractController;
 import es.tamarit.widgetemt.core.ViewManager;
+import es.tamarit.widgetemt.services.searchstop.SearchStop;
+import es.tamarit.widgetemt.services.searchstop.SearchStopImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -123,7 +123,7 @@ public class SettingsController extends AbstractController {
             new Thread(() -> {
                 
                 try {
-                    List<String> namesFound = searchStop.getBusStopNames(text);
+                    List<String> namesFound = searchStop.findAll(text);
                     
                     Platform.runLater(() -> {
                         if (namesFound != null && !namesFound.isEmpty()) {

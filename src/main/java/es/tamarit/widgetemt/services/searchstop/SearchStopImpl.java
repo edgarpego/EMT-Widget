@@ -1,4 +1,4 @@
-package es.tamarit.widgetemt.api.searchstop;
+package es.tamarit.widgetemt.services.searchstop;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -14,7 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import es.tamarit.widgetemt.api.AbstractServerConnection;
+import es.tamarit.widgetemt.services.AbstractServerConnection;
 
 public class SearchStopImpl extends AbstractServerConnection implements SearchStop {
     
@@ -32,7 +32,7 @@ public class SearchStopImpl extends AbstractServerConnection implements SearchSt
     }
     
     @Override
-    public List<String> getBusStopNames(String sugerence) throws IOException {
+    public List<String> findAll(String sugerence) throws IOException {
         
         Map<String, String> params = new LinkedHashMap<String, String>();
         
