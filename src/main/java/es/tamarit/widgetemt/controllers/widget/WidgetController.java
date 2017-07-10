@@ -1,13 +1,7 @@
 package es.tamarit.widgetemt.controllers.widget;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -16,9 +10,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.controllers.AbstractController;
-import es.tamarit.widgetemt.core.ViewManager;
-import es.tamarit.widgetemt.services.stoptimes.StopTimes;
-import es.tamarit.widgetemt.services.stoptimes.StopTimesImpl;
+import es.tamarit.widgetemt.services.properties.FilePropertiesService;
+import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
+import es.tamarit.widgetemt.services.stoptimes.StopTimesService;
+import es.tamarit.widgetemt.services.stoptimes.StopTimesServiceImpl;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -34,28 +29,28 @@ public class WidgetController extends AbstractController {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     
     @FXML
-    private WebView myWebView;
-    @FXML
     private ProgressIndicator progress;
     @FXML
     private Button refreshButton;
     @FXML
     private Button moveButton;
+    @FXML
+    private WebView myWebView;
     
     private WebEngine myWebEngine;
-    private Properties properties;
+    private FilePropertiesService properties;
     private String response;
-    private StopTimes stopTimes;
+    private StopTimesService stopTimes;
     
     @FXML
     public void initialize() {
+        setMoveListeners();
+        
         try {
-            setListeners();
+            properties = new SettingsPropertiesServiceImpl();
             
-            properties = new Properties();
-            InputStream inputStream = new FileInputStream(ViewManager.FILE_SETTINGS);
-            properties.load(inputStream);
-            inputStream.close();
+            Boolean alwaysOnTop = Boolean.valueOf(properties.getProperty("always.on.front").toString());
+            viewManager.getSecondaryStage().setAlwaysOnTop(alwaysOnTop);
             
             String stopFilter = properties.getProperty("bus.stop.name");
             String[] parts = stopFilter.split(":");
@@ -83,16 +78,14 @@ public class WidgetController extends AbstractController {
                 Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
                 String language = locale.getLanguage();
                 
-                stopTimes = new StopTimesImpl(stopName, lineFilter, adapted, language);
+                stopTimes = new StopTimesServiceImpl(stopName, lineFilter, adapted, language);
                 
-                if (Boolean.valueOf(properties.get("auto.refresh.data").toString()) == Boolean.TRUE) {
+                if (Boolean.valueOf(properties.getProperty("auto.refresh.data").toString()) == Boolean.TRUE) {
                     scheduler.scheduleAtFixedRate(() -> printTimes(), 0, 30, TimeUnit.SECONDS);
                 } else {
                     printTimes();
                 }
             }
-        } catch (FileNotFoundException e) {
-            LOGGER.error("Error trying to get the properties file", e);
         } catch (IOException e) {
             LOGGER.error("Error trying to load the properties", e);
         }
@@ -149,7 +142,7 @@ public class WidgetController extends AbstractController {
         viewManager.loadSettingsView();
     }
     
-    private void setListeners() {
+    private void setMoveListeners() {
         
         final Delta dragDelta = new Delta();
         moveButton.setOnMousePressed(mouseEvent -> {
@@ -159,18 +152,11 @@ public class WidgetController extends AbstractController {
         });
         
         moveButton.setOnMouseReleased(mouseEvent -> {
-            try {
-                moveButton.getScene().setCursor(Cursor.HAND);
-                OutputStream output = new FileOutputStream(ViewManager.FILE_SETTINGS);
-                properties.setProperty("widget.position.x", String.valueOf(viewManager.getSecondaryStage().getX()));
-                properties.setProperty("widget.position.y", String.valueOf(viewManager.getSecondaryStage().getY()));
-                properties.store(output, null);
-                output.close();
-            } catch (FileNotFoundException e) {
-                LOGGER.error("Error trying open the file.", e);
-            } catch (IOException e) {
-                LOGGER.error("Error trying to save the new data to the file.", e);
-            }
+            moveButton.getScene().setCursor(Cursor.HAND);
+            
+            properties.setProperty("widget.position.x", String.valueOf(viewManager.getSecondaryStage().getX()));
+            properties.setProperty("widget.position.y", String.valueOf(viewManager.getSecondaryStage().getY()));
+            properties.store();
         });
         
         moveButton.setOnMouseDragged(mouseEvent -> {

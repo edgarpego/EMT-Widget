@@ -3,7 +3,7 @@ package es.tamarit.widgetemt.services.searchstop;
 import java.io.IOException;
 import java.util.List;
 
-public interface SearchStop {
+public interface SearchStopService {
     
     /**
      * Gets the bus stop names that contains a part of the string passed as parameter.

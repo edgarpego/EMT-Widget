@@ -11,9 +11,9 @@ import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.services.AbstractServerConnection;
 
-public class StopTimesImpl extends AbstractServerConnection implements StopTimes {
+public class StopTimesServiceImpl extends AbstractServerConnection implements StopTimesService {
     
-    private static final Logger LOGGER = LogManager.getLogger(StopTimesImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(StopTimesServiceImpl.class);
     
     private URL url;
     private String stopName;
@@ -21,7 +21,7 @@ public class StopTimesImpl extends AbstractServerConnection implements StopTimes
     private String adapted;
     private String language;
     
-    public StopTimesImpl(String stopName, String lineFilter, String adapted, String language) {
+    public StopTimesServiceImpl(String stopName, String lineFilter, String adapted, String language) {
         
         this.stopName = stopName;
         this.lineFilter = lineFilter;

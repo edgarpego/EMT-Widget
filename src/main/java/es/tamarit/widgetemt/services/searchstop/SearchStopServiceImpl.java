@@ -16,13 +16,13 @@ import org.jsoup.select.Elements;
 
 import es.tamarit.widgetemt.services.AbstractServerConnection;
 
-public class SearchStopImpl extends AbstractServerConnection implements SearchStop {
+public class SearchStopServiceImpl extends AbstractServerConnection implements SearchStopService {
     
-    private static final Logger LOGGER = LogManager.getLogger(SearchStopImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(SearchStopServiceImpl.class);
     
     private URL url;
     
-    public SearchStopImpl() {
+    public SearchStopServiceImpl() {
         
         try {
             this.url = new URL("https://www.emtvalencia.es/ciudadano/modules/mod_tiempo/sugiere_parada.php");
