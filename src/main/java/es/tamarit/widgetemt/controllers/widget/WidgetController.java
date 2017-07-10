@@ -57,7 +57,22 @@ public class WidgetController extends AbstractController {
             properties.load(inputStream);
             inputStream.close();
 
-            String stopName = properties.getProperty("bus.stop.name");
+            String stopFilter = properties.getProperty("bus.stop.name");
+            String[] parts = stopFilter.split(":");
+
+            String stopName = null;
+            String lineFilter = "none";
+            String adapted = "0";
+
+            switch (parts.length) {
+                case 3:
+                    adapted = parts[2];
+                case 2:
+                    lineFilter = parts[1];
+                case 1:
+                    stopName = parts[0];
+                break;
+            }
 
             if (stopName != null && !stopName.isEmpty()) {
 
@@ -68,7 +83,7 @@ public class WidgetController extends AbstractController {
                 Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
                 String language = locale.getLanguage();
 
-                stopTimes = new StopTimesImpl(stopName, "none", "0", language);
+                stopTimes = new StopTimesImpl(stopName, lineFilter, adapted, language);
 
                 if (Boolean.valueOf(properties.get("auto.refresh.data").toString()) == Boolean.TRUE) {
                     scheduler.scheduleAtFixedRate(() -> printTimes(), 0, 30, TimeUnit.SECONDS);
@@ -89,9 +104,9 @@ public class WidgetController extends AbstractController {
     }
 
     private void printTimes() {
-        LOGGER.info("Printing the times");
 
         if (stopTimes != null) {
+            LOGGER.info("Printing the times");
 
             Platform.runLater(() -> {
                 progress.setVisible(true);
