@@ -1,7 +1,7 @@
 /*------------------------- BACKGROUND STYLE --------------------------- */
-.widgetBackground {
+/*.widgetBackground {
 	-fx-background-image: url(../images/background.png);
-}
+}*/
 
 
 /*------------------------- BUTTON STYLE --------------------------- */
@@ -35,6 +35,10 @@
 
 .trashIcon {
 	-fx-image: url(../images/buttons/trash.png);
+}
+
+.moveIcon {
+	-fx-image: url(../images/buttons/move.png);
 }
 
 

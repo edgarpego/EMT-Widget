@@ -2,8 +2,10 @@ package es.tamarit.widgetemt.controllers.widget;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.concurrent.Executors;
@@ -19,6 +21,7 @@ import es.tamarit.widgetemt.controllers.AbstractController;
 import es.tamarit.widgetemt.core.ViewManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.web.WebEngine;
@@ -36,6 +39,8 @@ public class WidgetController extends AbstractController {
     private ProgressIndicator progress;
     @FXML
     private Button refreshButton;
+    @FXML
+    private Button moveButton;
 
     private WebEngine myWebEngine;
     private Properties properties;
@@ -45,6 +50,8 @@ public class WidgetController extends AbstractController {
     @FXML
     public void initialize() {
         try {
+            setListeners();
+
             properties = new Properties();
             InputStream inputStream = new FileInputStream(ViewManager.FILE_SETTINGS);
             properties.load(inputStream);
@@ -126,4 +133,52 @@ public class WidgetController extends AbstractController {
         scheduler.shutdown();
         viewManager.loadSettingsView();
     }
+
+    private void setListeners() {
+
+        final Delta dragDelta = new Delta();
+        moveButton.setOnMousePressed(mouseEvent -> {
+            moveButton.getScene().setCursor(Cursor.MOVE);
+            dragDelta.x = viewManager.getSecondaryStage().getX() - mouseEvent.getScreenX();
+            dragDelta.y = viewManager.getSecondaryStage().getY() - mouseEvent.getScreenY();
+        });
+
+        moveButton.setOnMouseReleased(mouseEvent -> {
+            try {
+                moveButton.getScene().setCursor(Cursor.HAND);
+                OutputStream output = new FileOutputStream(ViewManager.FILE_SETTINGS);
+                properties.setProperty("widget.position.x", String.valueOf(viewManager.getSecondaryStage().getX()));
+                properties.setProperty("widget.position.y", String.valueOf(viewManager.getSecondaryStage().getY()));
+                properties.store(output, null);
+                output.close();
+            } catch (FileNotFoundException e) {
+                LOGGER.error("Error trying open the file.", e);
+            } catch (IOException e) {
+                LOGGER.error("Error trying to save the new data to the file.", e);
+            }
+        });
+
+        moveButton.setOnMouseDragged(mouseEvent -> {
+            moveButton.getScene().setCursor(Cursor.MOVE);
+            viewManager.getSecondaryStage().setX(mouseEvent.getScreenX() + dragDelta.x);
+            viewManager.getSecondaryStage().setY(mouseEvent.getScreenY() + dragDelta.y);
+        });
+
+        moveButton.setOnMouseEntered(mouseEvent -> {
+            if (!mouseEvent.isPrimaryButtonDown()) {
+                moveButton.getScene().setCursor(Cursor.HAND);
+            }
+        });
+
+        moveButton.setOnMouseExited(mouseEvent -> {
+            if (!mouseEvent.isPrimaryButtonDown()) {
+                moveButton.getScene().setCursor(Cursor.DEFAULT);
+            }
+        });
+    }
+}
+
+class Delta {
+
+    double x, y;
 }

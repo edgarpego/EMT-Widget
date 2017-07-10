@@ -17,11 +17,8 @@ import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.controllers.settings.SettingsController;
 import es.tamarit.widgetemt.controllers.widget.WidgetController;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -75,7 +72,6 @@ public class ViewManager {
             scene = new Scene(currentView);
 
             loadStyleSheets();
-            setListeners();
 
             secondaryStage.setScene(scene);
             secondaryStage.setAlwaysOnTop(Boolean.valueOf(properties.get("always.on.front").toString()));
@@ -204,74 +200,7 @@ public class ViewManager {
         return languageManager.getResourceBundle();
     }
 
-    private void setListeners() {
-
-        final Delta dragDelta = new Delta();
-        currentView.setOnMousePressed(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                scene.setCursor(Cursor.MOVE);
-
-                // record a delta distance for the drag and drop operation.
-                dragDelta.x = getSecondaryStage().getX() - mouseEvent.getScreenX();
-                dragDelta.y = getSecondaryStage().getY() - mouseEvent.getScreenY();
-            }
-        });
-        currentView.setOnMouseReleased(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try {
-                    scene.setCursor(Cursor.HAND);
-
-                    OutputStream output = new FileOutputStream(FILE_SETTINGS);
-                    properties.setProperty("widget.position.x", String.valueOf(getSecondaryStage().getX()));
-                    properties.setProperty("widget.position.y", String.valueOf(getSecondaryStage().getY()));
-                    properties.store(output, null);
-                    output.close();
-                } catch (FileNotFoundException e) {
-                    LOGGER.error("Error trying open the file.", e);
-                } catch (IOException e) {
-                    LOGGER.error("Error trying to save the new data to the file.", e);
-                }
-            }
-        });
-        currentView.setOnMouseDragged(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                getSecondaryStage().setX(mouseEvent.getScreenX() + dragDelta.x);
-                getSecondaryStage().setY(mouseEvent.getScreenY() + dragDelta.y);
-            }
-        });
-        currentView.setOnMouseEntered(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (!mouseEvent.isPrimaryButtonDown()) {
-                    scene.setCursor(Cursor.HAND);
-                }
-            }
-        });
-        currentView.setOnMouseExited(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (!mouseEvent.isPrimaryButtonDown()) {
-                    scene.setCursor(Cursor.DEFAULT);
-                }
-            }
-        });
-    }
-
-    private Stage getSecondaryStage() {
+    public Stage getSecondaryStage() {
         return this.secondaryStage;
     }
-}
-
-// records relative x and y co-ordinates.
-class Delta {
-
-    double x, y;
 }
