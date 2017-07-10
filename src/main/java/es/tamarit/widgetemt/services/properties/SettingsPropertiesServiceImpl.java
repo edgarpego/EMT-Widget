@@ -42,6 +42,7 @@ public class SettingsPropertiesServiceImpl implements FilePropertiesService {
                 writer.println("widget.position.x=50");
                 writer.println("widget.position.y=50");
                 writer.println("bus.stop.name=");
+                writer.println("bus.stop.favourites=");
                 writer.println("always.on.front=false");
                 writer.println("auto.refresh.data=false");
                 writer.println("application.language.locale=es-ES");
@@ -66,6 +67,14 @@ public class SettingsPropertiesServiceImpl implements FilePropertiesService {
         }
         if (properties.getProperty("always.on.front") == null || properties.getProperty("always.on.front").isEmpty()) {
             properties.setProperty("always.on.front", "false");
+            neededRestore = true;
+        }
+        if (properties.getProperty("bus.stop.name") == null || properties.getProperty("bus.stop.name").isEmpty()) {
+            properties.setProperty("bus.stop.name", "");
+            neededRestore = true;
+        }
+        if (properties.getProperty("bus.stop.favourites") == null || properties.getProperty("bus.stop.favourites").isEmpty()) {
+            properties.setProperty("bus.stop.favourites", "");
             neededRestore = true;
         }
         if (properties.getProperty("auto.refresh.data") == null || properties.getProperty("auto.refresh.data").isEmpty()) {

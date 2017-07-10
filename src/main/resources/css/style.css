@@ -39,6 +39,11 @@
 	-fx-image: url(../images/buttons/arrow.png);
 }
 
+.deleteIcon {
+	-fx-image: url(../images/buttons/delete.png);
+}
+
+
 
 /*------------------------- FLAGS STYLE --------------------------- */
 .castellanoFlag {

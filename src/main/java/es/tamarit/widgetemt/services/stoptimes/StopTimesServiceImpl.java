@@ -41,11 +41,11 @@ public class StopTimesServiceImpl extends AbstractServerConnection implements St
         Map<String, String> params = new LinkedHashMap<String, String>();
         
         params.put("parada", stopName);
-        if (!lineFilter.equals("none")) {
+        if (!lineFilter.isEmpty()) {
             params.put("linea", lineFilter);
         }
         params.put("adaptados", adapted);
-        params.put("usuario", "Anonimo");
+        params.put("usuario", "anonimo");
         params.put("idioma", language);
         
         return getResponse(params, url);

@@ -10,6 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.controllers.AbstractController;
+import es.tamarit.widgetemt.services.favourites.Favourite;
+import es.tamarit.widgetemt.services.favourites.FavouritesService;
+import es.tamarit.widgetemt.services.favourites.FavouritesServiceImpl;
 import es.tamarit.widgetemt.services.properties.FilePropertiesService;
 import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
 import es.tamarit.widgetemt.services.stoptimes.StopTimesService;
@@ -18,6 +21,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
@@ -39,11 +43,14 @@ public class WidgetController extends AbstractController {
     private Pane helpPane;
     @FXML
     private WebView myWebView;
+    @FXML
+    private ComboBox<Favourite> favouritesComboBox;
     
     private WebEngine myWebEngine;
     private FilePropertiesService properties;
     private String response;
-    private StopTimesService stopTimes;
+    private StopTimesService stopTimesService;
+    private FavouritesService favouriteService;
     
     @FXML
     public void initialize() {
@@ -51,18 +58,29 @@ public class WidgetController extends AbstractController {
         
         try {
             properties = new SettingsPropertiesServiceImpl();
+            favouriteService = new FavouritesServiceImpl(properties);
             
             Platform.runLater(() -> {
                 Boolean alwaysOnFront = Boolean.valueOf(properties.getProperty("always.on.front").toString());
                 viewManager.getSecondaryStage().setAlwaysOnTop(alwaysOnFront);
             });
             
+            favouritesComboBox.setItems(favouriteService.getAllFavourites());
+            favouritesComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
+                    String language = locale.getLanguage();
+                    stopTimesService = new StopTimesServiceImpl(newSelection.getStopName(), newSelection.getLineFilter(), newSelection.getAdapted(), language);
+                    printTimes();
+                }
+            });
+            
             String stopFilter = properties.getProperty("bus.stop.name");
             String[] parts = stopFilter.split(":");
             
             String stopName = null;
-            String lineFilter = "none";
-            String adapted = "0";
+            String lineFilter = "";
+            String adapted = "false";
             
             switch (parts.length) {
                 case 3:
@@ -83,7 +101,7 @@ public class WidgetController extends AbstractController {
                 Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
                 String language = locale.getLanguage();
                 
-                stopTimes = new StopTimesServiceImpl(stopName, lineFilter, adapted, language);
+                stopTimesService = new StopTimesServiceImpl(stopName, lineFilter, adapted, language);
                 
                 if (Boolean.valueOf(properties.getProperty("auto.refresh.data").toString()) == Boolean.TRUE) {
                     scheduler.scheduleAtFixedRate(() -> printTimes(), 0, 30, TimeUnit.SECONDS);
@@ -105,7 +123,7 @@ public class WidgetController extends AbstractController {
     
     private void printTimes() {
         
-        if (stopTimes != null) {
+        if (stopTimesService != null) {
             LOGGER.info("Printing the times");
             
             Platform.runLater(() -> {
@@ -117,7 +135,7 @@ public class WidgetController extends AbstractController {
             new Thread(() -> {
                 try {
                     
-                    response = stopTimes.findByNameAndLineAndAdapted();
+                    response = stopTimesService.findByNameAndLineAndAdapted();
                     
                 } catch (IOException e) {
                     LOGGER.error("Error trying to get the response from the EMT server", e);
@@ -147,6 +165,14 @@ public class WidgetController extends AbstractController {
     private void openSettingsWindow() {
         scheduler.shutdown();
         viewManager.loadSettingsView();
+    }
+    
+    @FXML
+    private void closeApplication() {
+        Platform.runLater(() -> {
+            viewManager.getSecondaryStage().close();
+            System.exit(0);
+        });
     }
     
     private void setMoveListeners() {

@@ -138,7 +138,7 @@
 
 .table-view .filler {
 	-fx-background-color: #3498db;
-	-fx-border-color: #3498db;
+	-fx-border-color: #fff;
 	-fx-border-width: 1;
 }
 
@@ -166,12 +166,16 @@
 }
 
 .table-row-cell {
-	/*-fx-background-color: white;*/
+	-fx-background-color: #fff;
 	-fx-font-size: 14px;
 }
 
 .table-row-cell:selected {
-	-fx-background-color: #fff;
+	-fx-background-color: #eee;
+}
+
+.table-row-cell:selected  .text {
+	-fx-fill: #000;
 }
 
 .table-row-cell:empty {
@@ -194,7 +198,7 @@
 /*------------------------ SCROLLBAR STYLE ------------------------- */
 /* http://blog.ngopal.com.np/2012/07/11/customize-scrollbar-via-css/ */
 
-/*.scroll-bar:vertical {
+/*.scroll-bar:horizontal {
     -fx-opacity: 0;
 }*/
 

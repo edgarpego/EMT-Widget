@@ -28,11 +28,14 @@
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <ComboBox fx:id="busStopCombo" editable="true" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.proptext" />
+            <ComboBox fx:id="busStopCombo" editable="true" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.proptext">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ComboBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
                   <Label text="Línea:" />
-                  <TextField prefWidth="50.0" promptText="Nº">
+                  <TextField fx:id="lineFilterText" prefWidth="50.0" promptText="Nº">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -42,20 +45,26 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="100.0">
                <children>
-                  <CheckBox mnemonicParsing="false" text="Sólo adaptados" />
-                  <Button alignment="CENTER" graphicTextGap="10.0" mnemonicParsing="false" style="-fx-background-color: #3498db;" text="Añadir">
+                  <CheckBox fx:id="adaptedCheck" mnemonicParsing="false" text="Sólo adaptados">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></CheckBox>
+                  <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavourites" style="-fx-background-color: #3498db;" text="Añadir">
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="addIcon" />
                      </graphic>
                      <tooltip>
                         <Tooltip text="Añadir parada" />
                      </tooltip>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </HBox>
          </children>
       </VBox>
-      <VBox fx:id="favoritos" alignment="CENTER" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="195.0">
+      <VBox fx:id="favoritos" alignment="CENTER_LEFT" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="178.0">
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                <children>
@@ -63,18 +72,13 @@
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <TableView prefHeight="100.0">
+            <TableView fx:id="favouritesTableView" prefHeight="105.0">
               <columns>
-                <TableColumn maxWidth="220.0" prefWidth="75.0" sortable="false" text="Nombre" />
-                <TableColumn maxWidth="60.0" prefWidth="75.0" sortable="false" text="Línea" />
-                  <TableColumn maxWidth="50.0" prefWidth="75.0" sortable="false">
+                <TableColumn fx:id="busStopColumn" maxWidth="255.0" prefWidth="255.0" resizable="false" sortable="false" text="Nombre" />
+                <TableColumn fx:id="lineFilterColumn" maxWidth="60.0" prefWidth="60.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" text="Línea" />
+                  <TableColumn fx:id="adaptedColumn" maxWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;">
                      <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="wheelchairIcon" />
-                     </graphic>
-                  </TableColumn>
-                  <TableColumn maxWidth="50.0" prefWidth="75.0" sortable="false">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="trashIcon" />
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="wheelchairIcon" />
                      </graphic>
                   </TableColumn>
               </columns>
@@ -82,9 +86,20 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <Button fx:id="deleteButton" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#deleteRowSelected" style="-fx-background-color: #3498db;" text="Eliminar">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="trashIcon" />
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Elliminar" />
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </VBox>
-      <VBox fx:id="tajeta" alignment="CENTER_LEFT" spacing="15.0" AnchorPane.bottomAnchor="275.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <VBox fx:id="tajeta" alignment="CENTER_LEFT" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="376.0">
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                <children>
@@ -100,6 +115,9 @@
                <tooltip>
                   <Tooltip text="Consultar Saldo" />
                </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </VBox>
@@ -113,11 +131,20 @@
             </HBox>
             <HBox alignment="CENTER" spacing="78.0">
                <children>
-                  <CheckBox fx:id="alwaysOnTopCheck" mnemonicParsing="false" text="%settings.checkbox.always.top" />
-                  <CheckBox fx:id="autoRefreshCheck" mnemonicParsing="false" text="%settings.checkbox.auto.refresh" />
+                  <CheckBox fx:id="alwaysOnTopCheck" mnemonicParsing="false" text="%settings.checkbox.always.top">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></CheckBox>
+                  <CheckBox fx:id="autoRefreshCheck" mnemonicParsing="false" text="%settings.checkbox.auto.refresh">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></CheckBox>
                </children>
             </HBox>
-            <CheckBox mnemonicParsing="false" text="Iniciar automáticamente al inicio del sistema" />
+            <CheckBox mnemonicParsing="false" text="Iniciar automáticamente al inicio del sistema">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></CheckBox>
          </children>
       </VBox>
       <VBox fx:id="idioma" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
@@ -147,6 +174,9 @@
                      <tooltip>
                         <Tooltip text="%settings.language.spanish" />
                      </tooltip>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </RadioButton>
                   <RadioButton fx:id="catalanRadioButton" mnemonicParsing="false" toggleGroup="$languageGroup">
                      <graphic>
@@ -159,6 +189,9 @@
                      <tooltip>
                         <Tooltip text="%settings.language.catalan" />
                      </tooltip>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </RadioButton>
                   <RadioButton fx:id="englishRadioButton" mnemonicParsing="false" toggleGroup="$languageGroup">
                      <graphic>
@@ -171,6 +204,9 @@
                      <tooltip>
                         <Tooltip text="%settings.language.english" />
                      </tooltip>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </RadioButton>
                </children>
             </HBox>
@@ -185,6 +221,9 @@
                <tooltip>
                   <Tooltip text="%settings.button.save" />
                </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openWidgetViewCancel" style="-fx-background-color: #e74c3c;" HBox.hgrow="ALWAYS">
                <graphic>
@@ -193,6 +232,9 @@
                <tooltip>
                   <Tooltip text="%settings.button.cancel" />
                </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </HBox>
