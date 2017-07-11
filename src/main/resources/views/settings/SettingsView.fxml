@@ -73,6 +73,9 @@
                </children>
             </HBox>
             <TableView fx:id="favouritesTableView" prefHeight="105.0">
+              <placeholder>
+			    <Label text="No hay paradas guardadas" />
+			  </placeholder>
               <columns>
                 <TableColumn fx:id="busStopColumn" maxWidth="255.0" prefWidth="255.0" resizable="false" sortable="false" text="Nombre" />
                 <TableColumn fx:id="lineFilterColumn" maxWidth="60.0" prefWidth="60.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" text="Línea" />
