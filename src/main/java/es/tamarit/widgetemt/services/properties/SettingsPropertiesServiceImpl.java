@@ -42,14 +42,14 @@ public class SettingsPropertiesServiceImpl implements FilePropertiesService {
                 file.createNewFile();
                 
                 Writer writer = new OutputStreamWriter(new FileOutputStream(FILE_SETTINGS), CODIFICATION);
-                writer.write("widget.position.x=50");
-                writer.write("widget.position.y=50");
-                writer.write("bus.stop.name=");
-                writer.write("bus.stop.favorites=");
-                writer.write("always.on.front=false");
-                writer.write("auto.refresh.data=false");
-                writer.write("application.language.locale=es-ES");
-                writer.write("number.mobilis.card=");
+                writer.write("widget.position.x=50\n");
+                writer.write("widget.position.y=50\n");
+                writer.write("bus.stop.name=\n");
+                writer.write("bus.stop.favorites=\n");
+                writer.write("always.on.front=false\n");
+                writer.write("auto.refresh.data=false\n");
+                writer.write("application.language.locale=es-ES\n");
+                writer.write("number.mobilis.card=\n");
                 writer.close();
             }
         } catch (IOException e) {
