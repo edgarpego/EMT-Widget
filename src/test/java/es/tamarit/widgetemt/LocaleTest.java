@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import org.junit.Assert;
 import org.junit.Test;
 
-import es.tamarit.widgetemt.core.LanguageManager;
+import es.tamarit.widgetemt.core.language.LanguageManager;
 
 public class LocaleTest {
     

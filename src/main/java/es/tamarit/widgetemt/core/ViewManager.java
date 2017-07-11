@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.controllers.settings.SettingsController;
 import es.tamarit.widgetemt.controllers.widget.WidgetController;
+import es.tamarit.widgetemt.core.language.LanguageManager;
 import es.tamarit.widgetemt.services.properties.FilePropertiesService;
 import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
 import javafx.fxml.FXMLLoader;

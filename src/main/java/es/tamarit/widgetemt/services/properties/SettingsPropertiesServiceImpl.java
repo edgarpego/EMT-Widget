@@ -5,58 +5,61 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SettingsPropertiesServiceImpl implements FilePropertiesService {
-    
+
     private static final Logger LOGGER = LogManager.getLogger(SettingsPropertiesServiceImpl.class);
     private static final String FILE_SETTINGS = System.getProperty("user.home") + File.separator + ".EMTWidget" + File.separator + "settings.emt";
-    
+    private static final String CODIFICATION = "UTF-8";
+
     private Properties properties;
-    
+
     public SettingsPropertiesServiceImpl() throws IOException {
         newFileIfNotExists();
-        
+
         properties = new Properties();
-        InputStream inputStream = new FileInputStream(FILE_SETTINGS);
-        properties.load(inputStream);
-        inputStream.close();
-        
+        Reader reader = new InputStreamReader(new FileInputStream(FILE_SETTINGS), CODIFICATION);
+        properties.load(reader);
+        reader.close();
+
         checkPropertiesIntegrity();
     }
-    
+
     private void newFileIfNotExists() {
         try {
             File file = new File(FILE_SETTINGS);
-            
+
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
-                PrintWriter writer = new PrintWriter(file);
-                writer.println("widget.position.x=50");
-                writer.println("widget.position.y=50");
-                writer.println("bus.stop.name=");
-                writer.println("bus.stop.favourites=");
-                writer.println("always.on.front=false");
-                writer.println("auto.refresh.data=false");
-                writer.println("application.language.locale=es-ES");
+
+                Writer writer = new OutputStreamWriter(new FileOutputStream(FILE_SETTINGS), CODIFICATION);
+                writer.write("widget.position.x=50");
+                writer.write("widget.position.y=50");
+                writer.write("bus.stop.name=");
+                writer.write("bus.stop.favourites=");
+                writer.write("always.on.front=false");
+                writer.write("auto.refresh.data=false");
+                writer.write("application.language.locale=es-ES");
                 writer.close();
             }
         } catch (IOException e) {
             LOGGER.error("Error trying to create the settings file.", e);
         }
     }
-    
+
     private void checkPropertiesIntegrity() {
-        
+
         boolean neededRestore = false;
-        
+
         if (properties.getProperty("widget.position.x") == null || properties.getProperty("widget.position.x").isEmpty()) {
             properties.setProperty("widget.position.x", "50");
             neededRestore = true;
@@ -85,28 +88,28 @@ public class SettingsPropertiesServiceImpl implements FilePropertiesService {
             properties.setProperty("application.language.locale", "es-ES");
             neededRestore = true;
         }
-        
+
         if (neededRestore) {
             store();
         }
     }
-    
+
     @Override
     public String getProperty(String key) {
         return properties.getProperty(key);
     }
-    
+
     @Override
     public void setProperty(String key, String value) {
         properties.setProperty(key, value);
     }
-    
+
     @Override
     public void store() {
         try {
-            OutputStream output = new FileOutputStream(FILE_SETTINGS);
-            properties.store(output, null);
-            output.close();
+            Writer writer = new OutputStreamWriter(new FileOutputStream(FILE_SETTINGS), CODIFICATION);
+            properties.store(writer, null);
+            writer.close();
         } catch (FileNotFoundException e) {
             LOGGER.error("Error trying open the file.", e);
         } catch (IOException e) {
