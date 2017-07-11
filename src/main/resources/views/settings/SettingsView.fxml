@@ -24,37 +24,37 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                <children>
-                  <Label text="Buscar parada" />
+                  <Label text="%settings.title.search.stop" />
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <ComboBox fx:id="busStopCombo" editable="true" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.proptext">
+            <ComboBox fx:id="busStopCombo" editable="true" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.promptext">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></ComboBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <Label text="Línea:" />
+                  <Label text="%settings.text.line" />
                   <TextField fx:id="lineFilterText" prefWidth="50.0" promptText="Nº">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </TextField>
-                  <Label text="En blanco, TODAS" />
+                  <Label text="%settings.text.line.all" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="100.0">
                <children>
-                  <CheckBox fx:id="adaptedCheck" mnemonicParsing="false" text="Sólo adaptados">
+                  <CheckBox fx:id="adaptedCheck" mnemonicParsing="false" text="%settings.checkbox.only.adapted">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></CheckBox>
-                  <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavourites" style="-fx-background-color: #3498db;" text="Añadir">
+                  <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavourites" style="-fx-background-color: #3498db;" text="%settings.button.add">
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="addIcon" />
                      </graphic>
                      <tooltip>
-                        <Tooltip text="Añadir parada" />
+                        <Tooltip text="%settings.button.tooltip.add" />
                      </tooltip>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -68,17 +68,17 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                <children>
-                  <Label text="Paradas guardadas" />
+                  <Label text="%settings.title.saved.stops" />
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <TableView fx:id="favouritesTableView" prefHeight="105.0">
               <placeholder>
-			    <Label text="No hay paradas guardadas" />
+			    <Label text="%settings.tableview.promptext" />
 			  </placeholder>
               <columns>
-                <TableColumn fx:id="busStopColumn" maxWidth="255.0" prefWidth="255.0" resizable="false" sortable="false" text="Nombre" />
-                <TableColumn fx:id="lineFilterColumn" maxWidth="60.0" prefWidth="60.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" text="Línea" />
+                <TableColumn fx:id="busStopColumn" maxWidth="255.0" prefWidth="255.0" resizable="false" sortable="false" text="%settings.tableview.name" />
+                <TableColumn fx:id="lineFilterColumn" maxWidth="60.0" prefWidth="60.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" text="%settings.tableview.line" />
                   <TableColumn fx:id="adaptedColumn" maxWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;">
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="wheelchairIcon" />
@@ -89,12 +89,12 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="deleteButton" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#deleteRowSelected" style="-fx-background-color: #3498db;" text="Eliminar">
+            <Button fx:id="deleteButton" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#deleteRowSelected" style="-fx-background-color: #3498db;" text="%settings.button.delete">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="trashIcon" />
                </graphic>
                <tooltip>
-                  <Tooltip text="Elliminar" />
+                  <Tooltip text="%settings.button.delete" />
                </tooltip>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -106,17 +106,17 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                <children>
-                  <Label text="Conoce tu saldo" />
+                  <Label text="%settings.title.manage.card" />
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <TextField prefHeight="30.0" promptText="Número de tarjeta MÓBILIS" />
-            <Button graphicTextGap="10.0" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: #3498db;" text="Consultar">
+            <TextField prefHeight="30.0" promptText="%settings.card.number.promptext" />
+            <Button graphicTextGap="10.0" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: #3498db;" text="%settings.button.consult">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="eyeIcon" />
                </graphic>
                <tooltip>
-                  <Tooltip text="Consultar Saldo" />
+                  <Tooltip text="%settings.button.tooltip.consult" />
                </tooltip>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -128,7 +128,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                <children>
-                  <Label text="Configuración" />
+                  <Label text="%settings.title.configuration" />
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
@@ -144,7 +144,7 @@
                      </cursor></CheckBox>
                </children>
             </HBox>
-            <CheckBox mnemonicParsing="false" text="Iniciar automáticamente al inicio del sistema">
+            <CheckBox mnemonicParsing="false" text="%settings.checkbox.start.system">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></CheckBox>
@@ -154,7 +154,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                <children>
-                  <Label text="Idioma" />
+                  <Label text="%settings.title.language" />
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>

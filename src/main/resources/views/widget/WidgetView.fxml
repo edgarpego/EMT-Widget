@@ -32,7 +32,7 @@
                   <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="cancelIcon" />
                </graphic>
                <tooltip>
-                  <Tooltip text="Close" />
+                  <Tooltip text="%widget.button.close" />
                </tooltip>
                <cursor>
                   <Cursor fx:constant="HAND" />
