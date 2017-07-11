@@ -15,7 +15,10 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="750.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.settings.SettingsController">
@@ -26,16 +29,18 @@
                <children>
                   <Label text="%settings.title.search.stop" />
                   <Separator HBox.hgrow="ALWAYS" />
+                  <Label style="-fx-font-size: 12px;" text="v4.0.0" />
                </children>
             </HBox>
-            <ComboBox fx:id="busStopCombo" editable="true" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.promptext">
+            <ComboBox fx:id="busStopCombo" editable="true" focusTraversable="false" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.promptext">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></ComboBox>
+               </cursor>
+            </ComboBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
                   <Label text="%settings.text.line" />
-                  <TextField fx:id="lineFilterText" prefWidth="50.0" promptText="Nº">
+                  <TextField fx:id="lineFilterText" focusTraversable="false" prefWidth="50.0" promptText="Nº">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -49,7 +54,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></CheckBox>
-                  <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavourites" style="-fx-background-color: #3498db;" text="%settings.button.add">
+                  <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavorites" style="-fx-background-color: #3498db;" text="%settings.button.add">
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="addIcon" />
                      </graphic>
@@ -72,7 +77,7 @@
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <TableView fx:id="favouritesTableView" prefHeight="105.0">
+            <TableView fx:id="favoritesTableView" prefHeight="105.0">
               <placeholder>
 			    <Label text="%settings.tableview.promptext" />
 			  </placeholder>
@@ -110,18 +115,23 @@
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <TextField prefHeight="30.0" promptText="%settings.card.number.promptext" />
-            <Button graphicTextGap="10.0" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: #3498db;" text="%settings.button.consult">
-               <graphic>
-                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="eyeIcon" />
-               </graphic>
-               <tooltip>
-                  <Tooltip text="%settings.button.tooltip.consult" />
-               </tooltip>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
+            <TextField fx:id="cardNumberText" onMouseClicked="#hideTheCadBalanceLabel" prefHeight="30.0" promptText="%settings.card.number.promptext" />
+            <HBox alignment="CENTER_LEFT" spacing="25.0">
+               <children>
+                  <Button graphicTextGap="10.0" mnemonicParsing="false" onAction="#knowTheCardBalance" prefHeight="30.0" style="-fx-background-color: #3498db;" text="%settings.button.consult">
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="eyeIcon" />
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="%settings.button.tooltip.consult" />
+                     </tooltip>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Label fx:id="cardBalanceLabel" onMouseClicked="#hideTheCadBalanceLabel" text="%settings.text.card.balance.label" visible="false" />
+               </children>
+            </HBox>
          </children>
       </VBox>
       <VBox fx:id="configuracion" alignment="CENTER" spacing="15.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
@@ -132,22 +142,34 @@
                   <Separator HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" spacing="78.0">
+            <GridPane alignment="CENTER_LEFT" prefHeight="65.0" vgap="20.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="198.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="182.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
                   <CheckBox fx:id="alwaysOnTopCheck" mnemonicParsing="false" text="%settings.checkbox.always.top">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></CheckBox>
-                  <CheckBox fx:id="autoRefreshCheck" mnemonicParsing="false" text="%settings.checkbox.auto.refresh">
+                  <CheckBox fx:id="autoRefreshCheck" mnemonicParsing="false" text="%settings.checkbox.auto.refresh" GridPane.columnIndex="1">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></CheckBox>
+                  <CheckBox mnemonicParsing="false" text="%settings.checkbox.start.system" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </CheckBox>
                </children>
-            </HBox>
-            <CheckBox mnemonicParsing="false" text="%settings.checkbox.start.system">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></CheckBox>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </GridPane>
          </children>
       </VBox>
       <VBox fx:id="idioma" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">

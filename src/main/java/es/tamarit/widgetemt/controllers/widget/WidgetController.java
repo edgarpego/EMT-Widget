@@ -10,9 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.controllers.AbstractController;
-import es.tamarit.widgetemt.services.favourites.Favourite;
-import es.tamarit.widgetemt.services.favourites.FavouritesService;
-import es.tamarit.widgetemt.services.favourites.FavouritesServiceImpl;
+import es.tamarit.widgetemt.services.favorites.Favorite;
+import es.tamarit.widgetemt.services.favorites.FavoritesService;
+import es.tamarit.widgetemt.services.favorites.FavoritesServiceImpl;
 import es.tamarit.widgetemt.services.properties.FilePropertiesService;
 import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
 import es.tamarit.widgetemt.services.stoptimes.StopTimesService;
@@ -44,73 +44,57 @@ public class WidgetController extends AbstractController {
     @FXML
     private WebView myWebView;
     @FXML
-    private ComboBox<Favourite> favouritesComboBox;
+    private ComboBox<Favorite> favoritesComboBox;
     
     private WebEngine myWebEngine;
     private FilePropertiesService properties;
     private String response;
     private StopTimesService stopTimesService;
-    private FavouritesService favouriteService;
+    private FavoritesService favoriteService;
     
     @FXML
     public void initialize() {
+        
         setMoveListeners();
         
         try {
             properties = new SettingsPropertiesServiceImpl();
-            favouriteService = new FavouritesServiceImpl(properties);
+            favoriteService = new FavoritesServiceImpl(properties);
             
             Platform.runLater(() -> {
                 Boolean alwaysOnFront = Boolean.valueOf(properties.getProperty("always.on.front").toString());
                 viewManager.getSecondaryStage().setAlwaysOnTop(alwaysOnFront);
             });
             
-            favouritesComboBox.setItems(favouriteService.getAllFavourites());
-            favouritesComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                if (newSelection != null) {
-                    Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
-                    String language = locale.getLanguage();
-                    stopTimesService = new StopTimesServiceImpl(newSelection.getStopName(), newSelection.getLineFilter(), newSelection.getAdapted(), language);
-                    printTimes();
-                }
-            });
+            favoritesComboBox.setItems(favoriteService.getAllFavorites());
             
-            String stopFilter = properties.getProperty("bus.stop.name");
-            String[] parts = stopFilter.split(":");
-            
-            String stopName = null;
-            String lineFilter = "";
-            String adapted = "false";
-            
-            switch (parts.length) {
-                case 3:
-                    adapted = parts[2];
-                case 2:
-                    lineFilter = parts[1];
-                case 1:
-                    stopName = parts[0];
-                    break;
-            }
-            
-            if (stopName != null && !stopName.isEmpty()) {
+            if (!favoritesComboBox.getItems().isEmpty()) {
                 
                 myWebView.setContextMenuEnabled(false);
                 myWebEngine = myWebView.getEngine();
                 myWebEngine.setUserStyleSheetLocation(getClass().getResource("/css/webstyle.css").toString());
                 
-                Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
-                String language = locale.getLanguage();
+                favoritesComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                    
+                    if (newSelection != null) {
+                        
+                        Locale locale = Locale.forLanguageTag(properties.getProperty("application.language.locale"));
+                        String language = locale.getLanguage();
+                        stopTimesService = new StopTimesServiceImpl(newSelection.getStopName(), newSelection.getLineFilter(), newSelection.getAdapted(), language);
+                        printTimes();
+                    }
+                });
                 
-                stopTimesService = new StopTimesServiceImpl(stopName, lineFilter, adapted, language);
+                favoritesComboBox.getSelectionModel().select(0);
                 
                 if (Boolean.valueOf(properties.getProperty("auto.refresh.data").toString()) == Boolean.TRUE) {
-                    scheduler.scheduleAtFixedRate(() -> printTimes(), 0, 30, TimeUnit.SECONDS);
-                } else {
-                    printTimes();
+                    scheduler.scheduleAtFixedRate(() -> printTimes(), 30, 30, TimeUnit.SECONDS);
                 }
+                
             } else {
                 helpPane.setVisible(true);
             }
+            
         } catch (IOException e) {
             LOGGER.error("Error trying to load the properties", e);
         }
@@ -130,34 +114,34 @@ public class WidgetController extends AbstractController {
                 progress.setVisible(true);
                 refreshButton.setDisable(true);
                 myWebEngine.loadContent("");
-            });
-            
-            new Thread(() -> {
-                try {
-                    
-                    response = stopTimesService.findByNameAndLineAndAdapted();
-                    
-                } catch (IOException e) {
-                    LOGGER.error("Error trying to get the response from the EMT server", e);
-                } finally {
-                    
-                    Platform.runLater(() -> {
-                        if (response != null && !response.isEmpty()) {
-                            if (response.contains("No disponible") || response.contains("Out of service")) {
-                                printTimes();
+                
+                new Thread(() -> {
+                    try {
+                        response = stopTimesService.findByNameAndLineAndAdapted();
+                        
+                    } catch (IOException e) {
+                        LOGGER.error("Error trying to get the response from the EMT server", e);
+                    } finally {
+                        
+                        Platform.runLater(() -> {
+                            if (response != null && !response.isEmpty()) {
+                                if (response.contains("No disponible") || response.contains("Out of service")) {
+                                    printTimes();
+                                } else {
+                                    myWebEngine.loadContent("<html><body>" + response + "</body></html>");
+                                    refreshButton.setDisable(false);
+                                    progress.setVisible(false);
+                                }
                             } else {
-                                myWebEngine.loadContent("<html><body>" + response + "</body></html>");
+                                myWebEngine.loadContent("<html><body><h2>There was an error, Try again in a few seconds!</h2></body></html>");
                                 refreshButton.setDisable(false);
                                 progress.setVisible(false);
                             }
-                        } else {
-                            myWebEngine.loadContent("<html><body><h3>There was an error, Try again in a few seconds!</h3></body></html>");
-                            refreshButton.setDisable(false);
-                            progress.setVisible(false);
-                        }
-                    });
-                }
-            }).start();
+                        });
+                    }
+                }).start();
+                
+            });
         }
     }
     

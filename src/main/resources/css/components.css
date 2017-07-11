@@ -65,10 +65,22 @@
 
 /*------------------------- COMBOBOX STYLE ------------------------- */
 .combo-box-base {
+	-fx-accent: #ddd;
+	-fx-focus-color: #ddd;
 	-fx-background-color: #fff;
 	-fx-border-radius: 0px;
 	-fx-border-color: #3498db;
 	-fx-border-width: 1px;
+}
+
+.combo-box-base .list-cell:selected {
+	-fx-background-color: #3498db;
+	-fx-border-color: #fff;
+	-fx-border-width: 0px 1px 0px 0px;
+}
+
+.combo-box-base .list-cell:selected .text {
+	-fx-fill: #fff;
 }
 
 .combo-box-base .arrow-button {

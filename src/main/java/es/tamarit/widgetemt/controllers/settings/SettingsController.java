@@ -7,9 +7,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.controllers.AbstractController;
-import es.tamarit.widgetemt.services.favourites.Favourite;
-import es.tamarit.widgetemt.services.favourites.FavouritesService;
-import es.tamarit.widgetemt.services.favourites.FavouritesServiceImpl;
+import es.tamarit.widgetemt.services.cardbalance.CardBalanceService;
+import es.tamarit.widgetemt.services.cardbalance.CardBalanceServiceImpl;
+import es.tamarit.widgetemt.services.favorites.Favorite;
+import es.tamarit.widgetemt.services.favorites.FavoritesService;
+import es.tamarit.widgetemt.services.favorites.FavoritesServiceImpl;
 import es.tamarit.widgetemt.services.properties.FilePropertiesService;
 import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
 import es.tamarit.widgetemt.services.searchstop.SearchStopService;
@@ -20,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -33,18 +36,21 @@ public class SettingsController extends AbstractController {
     private static final Logger LOGGER = LogManager.getLogger(SettingsController.class);
     public static final String URL_VIEW = "/views/settings/SettingsView.fxml";
     
+    private String errorString;
+    
     private FilePropertiesService properties;
     private SearchStopService searchStopService;
-    private FavouritesService favouriteService;
+    private FavoritesService favoriteService;
+    private CardBalanceService cardBalanceService;
     
     @FXML
-    private TableView<Favourite> favouritesTableView;
+    private TableView<Favorite> favoritesTableView;
     @FXML
-    private TableColumn<Favourite, String> busStopColumn;
+    private TableColumn<Favorite, String> busStopColumn;
     @FXML
-    private TableColumn<Favourite, String> lineFilterColumn;
+    private TableColumn<Favorite, String> lineFilterColumn;
     @FXML
-    private TableColumn<Favourite, String> adaptedColumn;
+    private TableColumn<Favorite, String> adaptedColumn;
     
     @FXML
     private ComboBox<String> busStopCombo;
@@ -68,6 +74,10 @@ public class SettingsController extends AbstractController {
     private Button addButton;
     @FXML
     private TextField lineFilterText;
+    @FXML
+    private TextField cardNumberText;
+    @FXML
+    private Label cardBalanceLabel;
     
     @FXML
     public void initialize() {
@@ -76,7 +86,7 @@ public class SettingsController extends AbstractController {
         try {
             properties = new SettingsPropertiesServiceImpl();
             searchStopService = new SearchStopServiceImpl();
-            favouriteService = new FavouritesServiceImpl(properties);
+            favoriteService = new FavoritesServiceImpl(properties);
             
             busStopCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                 if (newSelection != null) {
@@ -89,6 +99,7 @@ public class SettingsController extends AbstractController {
             busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
             alwaysOnTopCheck.setSelected(Boolean.valueOf(properties.getProperty("always.on.front")));
             autoRefreshCheck.setSelected(Boolean.valueOf(properties.getProperty("auto.refresh.data")));
+            cardNumberText.setText(properties.getProperty("number.mobilis.card"));
             
             spanishRadioButton.setUserData("es-ES");
             catalanRadioButton.setUserData("ca-ES");
@@ -98,14 +109,19 @@ public class SettingsController extends AbstractController {
             switch (locale) {
                 case "es-ES":
                     spanishRadioButton.setSelected(true);
+                    cardBalanceService = new CardBalanceServiceImpl("es");
                     break;
                 case "ca-ES":
                     catalanRadioButton.setSelected(true);
+                    cardBalanceService = new CardBalanceServiceImpl("ca");
                     break;
                 case "en-EN":
                     englishRadioButton.setSelected(true);
+                    cardBalanceService = new CardBalanceServiceImpl("en");
                     break;
             }
+            
+            errorString = cardBalanceLabel.getText();
             
             Platform.runLater(() -> initializeTableView());
             
@@ -120,7 +136,7 @@ public class SettingsController extends AbstractController {
         lineFilterColumn.setCellValueFactory(cellData -> cellData.getValue().lineFilterProperty());
         adaptedColumn.setCellValueFactory(cellData -> cellData.getValue().adaptedProperty());
         adaptedColumn.setCellFactory(column -> {
-            return new TableCell<Favourite, String>() {
+            return new TableCell<Favorite, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -146,8 +162,8 @@ public class SettingsController extends AbstractController {
             };
         });
         
-        favouritesTableView.setItems(favouriteService.getAllFavourites());
-        favouritesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        favoritesTableView.setItems(favoriteService.getAllFavorites());
+        favoritesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 deleteButton.setDisable(false);
             }
@@ -155,17 +171,17 @@ public class SettingsController extends AbstractController {
     }
     
     @FXML
-    private void addToFavourites() {
+    private void addToFavorites() {
         
         String stopName = busStopCombo.getValue();
         String lineFilter = lineFilterText.getText();
         String adapted = String.valueOf(adaptedCheck.isSelected());
         
-        Favourite newData = new Favourite();
+        Favorite newData = new Favorite();
         newData.setStopName(stopName);
         newData.setLineFilter(lineFilter);
         newData.setAdapted(adapted);
-        favouritesTableView.getItems().add(newData);
+        favoritesTableView.getItems().add(newData);
         
         busStopCombo.getEditor().clear();
         lineFilterText.clear();
@@ -174,9 +190,36 @@ public class SettingsController extends AbstractController {
     
     @FXML
     private void deleteRowSelected() {
-        
-        Favourite selectedItem = favouritesTableView.getSelectionModel().getSelectedItem();
-        favouritesTableView.getItems().remove(selectedItem);
+        Favorite selectedItem = favoritesTableView.getSelectionModel().getSelectedItem();
+        favoritesTableView.getItems().remove(selectedItem);
+    }
+    
+    @FXML
+    private void hideTheCadBalanceLabel() {
+        cardBalanceLabel.setVisible(false);
+    }
+    
+    @FXML
+    private void knowTheCardBalance() {
+        try {
+            if (!cardNumberText.getText().isEmpty()) {
+                
+                String balance = cardBalanceService.findByCardNumber(cardNumberText.getText());
+                
+                if (balance != null && !balance.isEmpty()) {
+                    cardBalanceLabel.setText(balance);
+                    cardBalanceLabel.setVisible(true);
+                } else {
+                    cardBalanceLabel.setText(errorString);
+                    cardBalanceLabel.setVisible(true);
+                }
+                
+                properties.setProperty("number.mobilis.card", cardNumberText.getText());
+                properties.store();
+            }
+        } catch (IOException e) {
+            LOGGER.error("Error trying to get the response from the EMT server", e);
+        }
     }
     
     @FXML
@@ -190,7 +233,7 @@ public class SettingsController extends AbstractController {
         properties.setProperty("auto.refresh.data", String.valueOf(autoRefreshCheck.isSelected()));
         properties.setProperty("application.language.locale", languageGroup.getSelectedToggle().getUserData().toString());
         
-        favouriteService.setAllFavourites(favouritesTableView.getItems());
+        favoriteService.setAllFavorites(favoritesTableView.getItems());
         
         properties.store();
         
