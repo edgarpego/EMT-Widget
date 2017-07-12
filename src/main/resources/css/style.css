@@ -57,3 +57,29 @@
 .inglesFlag {
 	-fx-image: url(../images/flags/ingles.jpg);
 }
+
+/*------------------------- TABS STYLE --------------------------- */
+
+.busIcon {
+	-fx-image: url(../images/tab-header/bus.png);
+}
+
+.cardIcon {
+	-fx-image: url(../images/tab-header/card.png);
+}
+
+.favoriteIcon {
+	-fx-image: url(../images/tab-header/favorite.png);
+}
+
+.languageIcon {
+	-fx-image: url(../images/tab-header/language.png);
+}
+
+.questionIcon {
+	-fx-image: url(../images/tab-header/question.png);
+}
+
+.configIcon {
+	-fx-image: url(../images/tab-header/config.png);
+}
