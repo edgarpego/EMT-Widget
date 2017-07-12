@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>EMT-Widget</groupId>
 	<artifactId>EMT-Widget</artifactId>
-	<version>4.0.2-RELEASE</version>
+	<version>4.0.3-RELEASE</version>
 
 	<properties>
 		<jdk.version>1.8</jdk.version>
