@@ -19,7 +19,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>
-      <Pane fx:id="helpPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+      <Pane fx:id="helpPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
          <children>
             <Label alignment="CENTER" layoutX="86.0" layoutY="32.0" prefHeight="21.0" prefWidth="150.0" style="-fx-font-size: 13px;" text="%widget.help.favorite" />
             <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="150.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" styleClass="arrowIcon" />

@@ -29,7 +29,7 @@
                <children>
                   <Label text="%settings.title.search.stop" />
                   <Separator HBox.hgrow="ALWAYS" />
-                  <Label style="-fx-font-size: 12px;" text="v4.0.1" />
+                  <Label style="-fx-font-size: 12px;" text="v4.0.2" />
                </children>
             </HBox>
             <ComboBox fx:id="busStopCombo" editable="true" focusTraversable="false" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.promptext">

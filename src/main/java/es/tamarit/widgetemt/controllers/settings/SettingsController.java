@@ -32,17 +32,17 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 
 public class SettingsController extends AbstractController {
-    
+
     private static final Logger LOGGER = LogManager.getLogger(SettingsController.class);
     public static final String URL_VIEW = "/views/settings/SettingsView.fxml";
-    
+
     private String errorString;
-    
+
     private FilePropertiesService properties;
     private SearchStopService searchStopService;
     private FavoritesService favoriteService;
     private CardBalanceService cardBalanceService;
-    
+
     @FXML
     private TableView<Favorite> favoritesTableView;
     @FXML
@@ -51,7 +51,7 @@ public class SettingsController extends AbstractController {
     private TableColumn<Favorite, String> lineFilterColumn;
     @FXML
     private TableColumn<Favorite, String> adaptedColumn;
-    
+
     @FXML
     private ComboBox<String> busStopCombo;
     @FXML
@@ -78,16 +78,16 @@ public class SettingsController extends AbstractController {
     private TextField cardNumberText;
     @FXML
     private Label cardBalanceLabel;
-    
+
     @FXML
     public void initialize() {
         LOGGER.info("Settings");
-        
+
         try {
             properties = new SettingsPropertiesServiceImpl();
             searchStopService = new SearchStopServiceImpl();
             favoriteService = new FavoritesServiceImpl(properties);
-            
+
             busStopCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                 if (newSelection != null) {
                     addButton.setDisable(false);
@@ -95,62 +95,63 @@ public class SettingsController extends AbstractController {
                     addButton.setDisable(true);
                 }
             });
-            
+
             busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
             alwaysOnTopCheck.setSelected(Boolean.valueOf(properties.getProperty("always.on.front")));
             autoRefreshCheck.setSelected(Boolean.valueOf(properties.getProperty("auto.refresh.data")));
             cardNumberText.setText(properties.getProperty("number.mobilis.card"));
-            
+
             spanishRadioButton.setUserData("es-ES");
             catalanRadioButton.setUserData("ca-ES");
             englishRadioButton.setUserData("en-EN");
-            
+
             String locale = properties.getProperty("application.language.locale");
             switch (locale) {
                 case "es-ES":
                     spanishRadioButton.setSelected(true);
                     cardBalanceService = new CardBalanceServiceImpl("es");
-                    break;
+                break;
                 case "ca-ES":
                     catalanRadioButton.setSelected(true);
                     cardBalanceService = new CardBalanceServiceImpl("ca");
-                    break;
+                break;
                 case "en-EN":
                     englishRadioButton.setSelected(true);
                     cardBalanceService = new CardBalanceServiceImpl("en");
-                    break;
+                break;
             }
-            
+
             errorString = cardBalanceLabel.getText();
-            
+
             Platform.runLater(() -> initializeTableView());
-            
+
         } catch (IOException e) {
             LOGGER.error("Error trying to load the properties", e);
         }
     }
-    
+
     private void initializeTableView() {
-        
+
         busStopColumn.setCellValueFactory(cellData -> cellData.getValue().stopNameProperty());
         lineFilterColumn.setCellValueFactory(cellData -> cellData.getValue().lineFilterProperty());
         adaptedColumn.setCellValueFactory(cellData -> cellData.getValue().adaptedProperty());
         adaptedColumn.setCellFactory(column -> {
             return new TableCell<Favorite, String>() {
+
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
-                    
+
                     if (item == null || empty) {
                         setText(null);
                         // setStyle("");
                         setGraphic(null);
                     } else {
-                        
+
                         Pane image = new Pane();
                         image.setMaxWidth(15);
                         image.setMaxHeight(15);
-                        
+
                         if (item.equals("false")) {
                             image.setStyle("-fx-background-color: #e74c3c;");
                         } else {
@@ -161,7 +162,7 @@ public class SettingsController extends AbstractController {
                 }
             };
         });
-        
+
         favoritesTableView.setItems(favoriteService.getAllFavorites());
         favoritesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -169,51 +170,53 @@ public class SettingsController extends AbstractController {
             }
         });
     }
-    
+
     @FXML
     private void addToFavorites() {
-        
+
         String stopName = busStopCombo.getValue();
         String lineFilter = lineFilterText.getText();
         String adapted = String.valueOf(adaptedCheck.isSelected());
-        
+
         Favorite newData = new Favorite();
         newData.setStopName(stopName);
         newData.setLineFilter(lineFilter);
         newData.setAdapted(adapted);
         favoritesTableView.getItems().add(newData);
-        
+
         busStopCombo.getEditor().clear();
         lineFilterText.clear();
         adaptedCheck.setSelected(false);
     }
-    
+
     @FXML
     private void deleteRowSelected() {
         Favorite selectedItem = favoritesTableView.getSelectionModel().getSelectedItem();
         favoritesTableView.getItems().remove(selectedItem);
     }
-    
+
     @FXML
     private void hideTheCadBalanceLabel() {
         cardBalanceLabel.setVisible(false);
     }
-    
+
     @FXML
     private void knowTheCardBalance() {
         try {
             if (!cardNumberText.getText().isEmpty()) {
-                
+
                 String balance = cardBalanceService.findByCardNumber(cardNumberText.getText());
-                
+
                 if (balance != null && !balance.isEmpty()) {
                     cardBalanceLabel.setText(balance);
                     cardBalanceLabel.setVisible(true);
+                    properties.setProperty("number.mobilis.card", cardNumberText.getText());
+                    properties.store();
                 } else {
                     cardBalanceLabel.setText(errorString);
                     cardBalanceLabel.setVisible(true);
                 }
-                
+            } else {
                 properties.setProperty("number.mobilis.card", cardNumberText.getText());
                 properties.store();
             }
@@ -221,57 +224,57 @@ public class SettingsController extends AbstractController {
             LOGGER.error("Error trying to get the response from the EMT server", e);
         }
     }
-    
+
     @FXML
     private void openWidgetViewConfirm() {
-        
+
         if (busStopCombo.getValue() != null && !busStopCombo.getValue().isEmpty()) {
             properties.setProperty("bus.stop.name", busStopCombo.getValue());
         }
-        
+
         properties.setProperty("always.on.front", String.valueOf(alwaysOnTopCheck.isSelected()));
         properties.setProperty("auto.refresh.data", String.valueOf(autoRefreshCheck.isSelected()));
         properties.setProperty("application.language.locale", languageGroup.getSelectedToggle().getUserData().toString());
-        
+
         favoriteService.setAllFavorites(favoritesTableView.getItems());
-        
+
         properties.store();
-        
+
         viewManager.loadWidgetView();
     }
-    
+
     @FXML
     private void openWidgetViewCancel() {
         viewManager.loadWidgetView();
     }
-    
+
     private void textEditor(String textBefore, String textAfter) {
-        
+
         String text = textAfter;
-        
+
         if (!text.isEmpty()) {
-            
+
             new Thread(() -> {
-                
+
                 try {
                     List<String> namesFound = searchStopService.findAll(text);
-                    
+
                     Platform.runLater(() -> {
-                        
+
                         if (namesFound != null && !namesFound.isEmpty()) {
                             // LOGGER.info(response);
                             busStopCombo.getItems().clear();
                             busStopCombo.hide();
-                            
+
                             busStopCombo.getItems().addAll(namesFound);
-                            
+
                             if (!busStopCombo.getItems().isEmpty()) {
                                 busStopCombo.setVisibleRowCount(namesFound.size() > 10 ? 10 : namesFound.size());
                                 busStopCombo.show();
                             }
                         }
                     });
-                    
+
                 } catch (IOException e) {
                     LOGGER.error("Error trying to get the response from the EMT server", e);
                 }
