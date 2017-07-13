@@ -133,7 +133,7 @@ public class WidgetController extends AbstractController {
                                     progress.setVisible(false);
                                 }
                             } else {
-                                myWebEngine.loadContent("<html><body><h2>There was an error, Try again in a few seconds!</h2></body></html>");
+                                myWebEngine.loadContent("<html><body><h2>Nothing to show, Try again later!</h2></body></html>");
                                 refreshButton.setDisable(false);
                                 progress.setVisible(false);
                             }

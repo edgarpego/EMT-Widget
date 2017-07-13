@@ -44,7 +44,6 @@ public class SettingsPropertiesServiceImpl implements FilePropertiesService {
                 Writer writer = new OutputStreamWriter(new FileOutputStream(FILE_SETTINGS), CODIFICATION);
                 writer.write("widget.position.x=50\n");
                 writer.write("widget.position.y=50\n");
-                writer.write("bus.stop.name=\n");
                 writer.write("bus.stop.favorites=\n");
                 writer.write("always.on.front=false\n");
                 writer.write("auto.refresh.data=false\n");
@@ -71,10 +70,6 @@ public class SettingsPropertiesServiceImpl implements FilePropertiesService {
         }
         if (properties.getProperty("always.on.front") == null || properties.getProperty("always.on.front").isEmpty()) {
             properties.setProperty("always.on.front", "false");
-            neededRestore = true;
-        }
-        if (properties.getProperty("bus.stop.name") == null || properties.getProperty("bus.stop.name").isEmpty()) {
-            properties.setProperty("bus.stop.name", "");
             neededRestore = true;
         }
         if (properties.getProperty("bus.stop.favorites") == null || properties.getProperty("bus.stop.favorites").isEmpty()) {
