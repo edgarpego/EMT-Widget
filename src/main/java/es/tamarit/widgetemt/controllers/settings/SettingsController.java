@@ -1,7 +1,7 @@
 package es.tamarit.widgetemt.controllers.settings;
 
-import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +17,7 @@ import es.tamarit.widgetemt.services.properties.FilePropertiesService;
 import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
 import es.tamarit.widgetemt.services.searchstop.SearchStopService;
 import es.tamarit.widgetemt.services.searchstop.SearchStopServiceImpl;
+import es.tamarit.widgetemt.utils.WinRegistry;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -35,6 +36,8 @@ import javafx.scene.layout.Pane;
 public class SettingsController extends AbstractController {
     
     private static final Logger LOGGER = LogManager.getLogger(SettingsController.class);
+    private static final String KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+    private static final String VALUE_NAME = "EMT-Widget";
     public static final String URL_VIEW = "/views/settings/SettingsView.fxml";
     
     private String errorString;
@@ -298,32 +301,35 @@ public class SettingsController extends AbstractController {
     
     private void createOrRemoveStartupLink() {
         
-        try {
-            if (System.getProperty("StartupLink") != null) {
+        if (System.getProperty("ApplicationPath") != null) {
+            try {
                 if (autoStartCheck.isSelected()) {
-                    String command = "elevate.exe -c -w copy " + "\"" + System.getProperty("AppDir") + "\" \"" + System.getProperty("StartupLink") + "\"";
-                    Runtime.getRuntime().exec("cmd /c " + command);
+                    WinRegistry.writeStringValue(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME, "\"" + System.getProperty("ApplicationPath") + "\"");
                 } else {
-                    String command = "elevate.exe -c -w del " + "\"" + System.getProperty("StartupLink") + "\"";
-                    Runtime.getRuntime().exec("cmd /c " + command);
+                    WinRegistry.deleteValue(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME);
                 }
+            } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+                LOGGER.error("Error trying to  writte or delete a registry entry");
             }
-        } catch (IOException e) {
-            LOGGER.error("Error trying to execute a command", e);
         }
     }
     
     private void checkStartupFolder() {
         
-        if (System.getProperty("StartupLink") != null) {
-            File file = new File(System.getProperty("StartupLink"));
+        if (System.getProperty("ApplicationPath") != null) {
             
-            if (file.exists()) {
-                autoStartCheck.setSelected(true);
-                autoStartStatus = true;
-            } else {
-                autoStartCheck.setSelected(false);
-                autoStartStatus = false;
+            try {
+                String result = WinRegistry.readString(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME);
+                
+                if (result != null) {
+                    autoStartCheck.setSelected(true);
+                    autoStartStatus = true;
+                } else {
+                    autoStartCheck.setSelected(false);
+                    autoStartStatus = false;
+                }
+            } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+                LOGGER.error("Error trying to read value from the registry", e);
             }
         }
     }
