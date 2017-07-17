@@ -1,7 +1,9 @@
 package es.tamarit.widgetemt.controllers.widget;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -51,9 +53,12 @@ public class WidgetController extends AbstractController {
     private String response;
     private StopTimesService stopTimesService;
     private FavoritesService favoriteService;
+    private ResourceBundle resourceBundle;
     
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        this.resourceBundle = resources;
         
         setMoveListeners();
         
@@ -133,7 +138,7 @@ public class WidgetController extends AbstractController {
                                     progress.setVisible(false);
                                 }
                             } else {
-                                myWebEngine.loadContent("<html><body><h2>Nothing to show, Try again later!</h2></body></html>");
+                                myWebEngine.loadContent("<html><body><h2>" + resourceBundle.getString("widget.void.response") + "</h2></body></html>");
                                 refreshButton.setDisable(false);
                                 progress.setVisible(false);
                             }

@@ -166,7 +166,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Button>
-                                    <Label fx:id="cardBalanceLabel" onMouseClicked="#hideTheCadBalanceLabel" text="%settings.text.card.balance.label" visible="false" />
+                                    <Label fx:id="cardBalanceLabel" onMouseClicked="#hideTheCadBalanceLabel" visible="false" />
                                  </children>
                               </HBox>
                            </children>

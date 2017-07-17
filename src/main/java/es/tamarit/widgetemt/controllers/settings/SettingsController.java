@@ -2,7 +2,9 @@ package es.tamarit.widgetemt.controllers.settings;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,15 +41,6 @@ public class SettingsController extends AbstractController {
     private static final String KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
     private static final String VALUE_NAME = "EMT-Widget";
     public static final String URL_VIEW = "/views/settings/SettingsView.fxml";
-    
-    private String errorString;
-    
-    private FilePropertiesService properties;
-    private SearchStopService searchStopService;
-    private FavoritesService favoriteService;
-    private CardBalanceService cardBalanceService;
-    
-    private boolean autoStartStatus;
     
     @FXML
     private TableView<Favorite> favoritesTableView;
@@ -87,9 +80,18 @@ public class SettingsController extends AbstractController {
     @FXML
     private Label cardBalanceLabel;
     
-    @FXML
-    public void initialize() {
-        LOGGER.info("Settings");
+    private FilePropertiesService properties;
+    private SearchStopService searchStopService;
+    private FavoritesService favoriteService;
+    private CardBalanceService cardBalanceService;
+    private ResourceBundle resourceBundle;
+    
+    private boolean autoStartStatus;
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        this.resourceBundle = resources;
         
         try {
             properties = new SettingsPropertiesServiceImpl();
@@ -132,8 +134,6 @@ public class SettingsController extends AbstractController {
                     cardBalanceService = new CardBalanceServiceImpl("en");
                     break;
             }
-            
-            errorString = cardBalanceLabel.getText();
             
             Platform.runLater(() -> {
                 initializeTableView();
@@ -228,7 +228,7 @@ public class SettingsController extends AbstractController {
                     properties.setProperty("number.mobilis.card", cardNumberText.getText());
                     properties.store();
                 } else {
-                    cardBalanceLabel.setText(errorString);
+                    cardBalanceLabel.setText(resourceBundle.getString("settings.text.card.balance.label"));
                     cardBalanceLabel.setVisible(true);
                 }
             } else {
