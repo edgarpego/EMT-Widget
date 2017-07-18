@@ -1,84 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane prefHeight="130.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.widget.WidgetController">
    <children>
       <WebView fx:id="myWebView" maxHeight="-1.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0" />
-      <ComboBox fx:id="favoritesComboBox" promptText="%settings.combobox.stored.promptext" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
+      <ComboBox fx:id="favoritesComboBox" prefHeight="30.0" promptText="%settings.combobox.stored.promptext" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>
       <Pane fx:id="helpPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
          <children>
             <Label alignment="CENTER" layoutX="86.0" layoutY="32.0" prefHeight="21.0" prefWidth="150.0" style="-fx-font-size: 13px;" text="%widget.help.favorite" />
-            <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="150.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" styleClass="arrowIcon" />
+            <Region layoutX="150.0" layoutY="9.0" minHeight="15.0" minWidth="23.0" rotate="270.0">
+               <styleClass>
+                  <String fx:value="svg" />
+                  <String fx:value="arrowIcon" />
+               </styleClass>
+            </Region>
             <Label alignment="CENTER_RIGHT" layoutX="117.0" layoutY="56.0" prefHeight="21.0" prefWidth="150.0" style="-fx-font-size: 13px;" text="%widget.help.configure" />
-            <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="271.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" styleClass="arrowIcon" />
+            <Region layoutX="271.0" layoutY="60.0" minHeight="15.0" minWidth="23.0">
+               <styleClass>
+                  <String fx:value="svg" />
+                  <String fx:value="arrowIcon" />
+               </styleClass>
+            </Region>
             <Label layoutX="34.0" layoutY="76.0" prefHeight="21.0" prefWidth="150.0" style="-fx-font-size: 13px;" text="%widget.help.refresh" />
-            <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="4.0" layoutY="76.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" styleClass="arrowIcon" />
+            <Region layoutX="4.0" layoutY="80.0" minHeight="15.0" minWidth="23.0" nodeOrientation="RIGHT_TO_LEFT">
+               <styleClass>
+                  <String fx:value="svg" />
+                  <String fx:value="arrowIcon" />
+               </styleClass>
+            </Region>
             <Label layoutX="26.0" layoutY="15.0" prefHeight="21.0" prefWidth="150.0" style="-fx-font-size: 13px;" text="%widget.help.move" />
-            <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="2.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" rotate="220.0" styleClass="arrowIcon" />
+            <Region layoutX="1.0" layoutY="5.0" minHeight="15.0" minWidth="23.0" rotate="220.0">
+               <styleClass>
+                  <String fx:value="svg" />
+                  <String fx:value="arrowIcon" />
+               </styleClass>
+            </Region>
             <Label alignment="CENTER_RIGHT" layoutX="126.0" layoutY="15.0" prefHeight="21.0" prefWidth="150.0" style="-fx-font-size: 13px;" text="%widget.help.close" />
-            <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="275.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" rotate="-45.0" styleClass="arrowIcon" />
+            <Region layoutX="277.0" layoutY="5.0" minHeight="15.0" minWidth="23.0" rotate="-45.0">
+               <styleClass>
+                  <String fx:value="svg" />
+                  <String fx:value="arrowIcon" />
+               </styleClass>
+            </Region>
          </children>
       </Pane>
       <VBox alignment="CENTER" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
          <children>
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#closeApplication" prefHeight="32.0" style="-fx-background-color: #e74c3c;" VBox.vgrow="ALWAYS">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="cancelIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%widget.button.close" />
                </tooltip>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <Region maxHeight="22.0" maxWidth="22.0">
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="cancelIcon" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Region>
+               </graphic>
             </Button>
             <Button contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openSettingsWindow" style="-fx-background-color: #95a5a6;" VBox.vgrow="ALWAYS">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="settingsIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%widget.button.settings" />
                </tooltip>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <Region maxHeight="35.0" maxWidth="35.0">
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="settingsIcon" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Region>
+               </graphic>
             </Button>
          </children>
       </VBox>
       <VBox alignment="CENTER" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-1.0">
          <children>
             <Button fx:id="moveButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #34495e;" VBox.vgrow="ALWAYS">
-               <graphic>
-                  <ImageView fitHeight="22.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="moveIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%widget.button.move" />
                </tooltip>
-            </Button>
-            <Button fx:id="refreshButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reloadHandler" style="-fx-background-color: #a5eb78;" VBox.vgrow="ALWAYS">
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="reloadIcon" />
+                  <Region maxHeight="24.0" maxWidth="24.0">
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="moveIcon" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Region>
                </graphic>
+            </Button>
+            <Button fx:id="refreshButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reloadHandler" style="-fx-background-color: #a5eb78;" VBox.vgrow="ALWAYS">
                <tooltip>
                   <Tooltip text="%widget.button.refresh" />
                </tooltip>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <Region maxHeight="33.0" maxWidth="35.0">
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="reloadIcon" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Region>
+               </graphic>
             </Button>
          </children>
       </VBox>

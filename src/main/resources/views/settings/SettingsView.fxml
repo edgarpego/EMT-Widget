@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -20,6 +21,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
@@ -37,7 +39,7 @@
                                  <children>
                                     <Label text="%settings.title.search.stop" />
                                     <Separator HBox.hgrow="ALWAYS" />
-                                    <Label style="-fx-font-size: 12px;" text="v4.0.6" />
+                                    <Label style="-fx-font-size: 12px;" text="v4.0.7" />
                                  </children>
                               </HBox>
                               <ComboBox fx:id="busStopCombo" editable="true" focusTraversable="false" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.promptext">
@@ -64,15 +66,23 @@
                                        </cursor>
                                     </CheckBox>
                                     <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavorites" style="-fx-background-color: #3498db;" text="%settings.button.add">
-                                       <graphic>
-                                          <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="favoriteIcon" />
-                                       </graphic>
                                        <tooltip>
                                           <Tooltip text="%settings.button.tooltip.add" />
                                        </tooltip>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <graphic>
+                                          <Region minHeight="22.0" minWidth="22.0">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <styleClass>
+                                                <String fx:value="svg" />
+                                                <String fx:value="favoriteIcon" />
+                                             </styleClass>
+                                          </Region>
+                                       </graphic>
                                     </Button>
                                  </children>
                               </HBox>
@@ -81,12 +91,20 @@
                      </children>
                   </AnchorPane>
             </content>
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="busIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%settings.title.search.stop" />
                </tooltip>
+               <graphic>
+                  <Region minHeight="25.0" minWidth="25.0">
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="busIcon" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Region>
+               </graphic>
           </Tab>
           <Tab>
             <content>
@@ -109,7 +127,12 @@
                                     <TableColumn fx:id="lineFilterColumn" maxWidth="60.0" prefWidth="60.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" text="%settings.tableview.line" />
                                     <TableColumn fx:id="adaptedColumn" maxWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;">
                                        <graphic>
-                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" styleClass="wheelchairIcon" />
+                                          <Region maxHeight="18.0" maxWidth="18.0">
+                                             <styleClass>
+                                                <String fx:value="svg" />
+                                                <String fx:value="wheelchairIcon" />
+                                             </styleClass>
+                                          </Region>
                                        </graphic>
                                     </TableColumn>
                                  </columns>
@@ -118,27 +141,43 @@
                                  </columnResizePolicy>
                               </TableView>
                               <Button fx:id="deleteButton" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#deleteRowSelected" style="-fx-background-color: #3498db;" text="%settings.button.delete">
-                                 <graphic>
-                                    <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="trashIcon" />
-                                 </graphic>
                                  <tooltip>
                                     <Tooltip text="%settings.button.delete" />
                                  </tooltip>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <graphic>
+                                    <Region minHeight="22.0" minWidth="20.0">
+                                       <styleClass>
+                                          <String fx:value="svg" />
+                                          <String fx:value="trashIcon" />
+                                       </styleClass>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Region>
+                                 </graphic>
                               </Button>
                            </children>
                         </VBox>
                      </children>
                   </AnchorPane>
             </content>
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="favoriteIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%settings.title.saved.stops" />
                </tooltip>
+               <graphic>
+                  <Region minHeight="25.0" minWidth="25.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="favoriteIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
           </Tab>
             <Tab>
               <content>
@@ -156,15 +195,23 @@
                               <HBox alignment="CENTER_LEFT" spacing="25.0">
                                  <children>
                                     <Button graphicTextGap="10.0" mnemonicParsing="false" onAction="#knowTheCardBalance" prefHeight="30.0" style="-fx-background-color: #3498db;" text="%settings.button.consult">
-                                       <graphic>
-                                          <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" styleClass="eyeIcon" />
-                                       </graphic>
                                        <tooltip>
                                           <Tooltip text="%settings.button.tooltip.consult" />
                                        </tooltip>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <graphic>
+                                          <Region minHeight="16.0" minWidth="22.0">
+                                             <styleClass>
+                                                <String fx:value="svg" />
+                                                <String fx:value="eyeIcon" />
+                                             </styleClass>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </Region>
+                                       </graphic>
                                     </Button>
                                     <Label fx:id="cardBalanceLabel" onMouseClicked="#hideTheCadBalanceLabel" visible="false" />
                                  </children>
@@ -174,12 +221,20 @@
                      </children>
                   </AnchorPane>
               </content>
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="cardIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%settings.title.manage.card" />
                </tooltip>
+               <graphic>
+                  <Region minHeight="20.0" minWidth="25.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="cardIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
             </Tab>
             <Tab>
               <content>
@@ -228,12 +283,20 @@
                      </children>
                   </AnchorPane>
               </content>
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="configIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%settings.title.configuration" />
                </tooltip>
+               <graphic>
+                  <Region minHeight="25.0" minWidth="25.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="configIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
             </Tab>
             <Tab>
               <content>
@@ -322,38 +385,62 @@
                      </children>
                   </AnchorPane>
               </content>
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="languageIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%settings.title.language" />
                </tooltip>
+               <graphic>
+                  <Region minHeight="25.0" minWidth="25.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="languageIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
             </Tab>
         </tabs>
       </TabPane>
-      <HBox fx:id="botones" alignment="CENTER" cache="true" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0">
+      <HBox fx:id="botones" alignment="CENTER" cache="true" prefHeight="35.0" spacing="25.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
          <children>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openWidgetViewConfirm" style="-fx-background-color: #2ecc71;" HBox.hgrow="ALWAYS">
-               <graphic>
-                  <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" styleClass="confirmIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%settings.button.save" />
                </tooltip>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <Region maxHeight="20.0" maxWidth="25.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="confirmIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
             </Button>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openWidgetViewCancel" style="-fx-background-color: #e74c3c;" HBox.hgrow="ALWAYS">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="cancelIcon" />
-               </graphic>
                <tooltip>
                   <Tooltip text="%settings.button.cancel" />
                </tooltip>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <Region maxHeight="20.0" maxWidth="20.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="cancelIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
             </Button>
          </children>
       </HBox>
