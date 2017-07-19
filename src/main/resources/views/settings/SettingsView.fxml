@@ -39,7 +39,7 @@
                                  <children>
                                     <Label text="%settings.title.search.stop" />
                                     <Separator HBox.hgrow="ALWAYS" />
-                                    <Label style="-fx-font-size: 12px;" text="v4.0.7" />
+                                    <Label style="-fx-font-size: 12px;" text="v4.0.8" />
                                  </children>
                               </HBox>
                               <ComboBox fx:id="busStopCombo" editable="true" focusTraversable="false" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.promptext">
@@ -402,7 +402,7 @@
             </Tab>
         </tabs>
       </TabPane>
-      <HBox fx:id="botones" alignment="CENTER" cache="true" prefHeight="35.0" spacing="25.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+      <HBox fx:id="botones" alignment="CENTER" cache="true" prefHeight="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openWidgetViewConfirm" style="-fx-background-color: #2ecc71;" HBox.hgrow="ALWAYS">
                <tooltip>
