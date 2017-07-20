@@ -27,7 +27,7 @@
 
 <AnchorPane prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.settings.SettingsController">
    <children>
-      <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane prefWidth="400.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab>
             <content>
@@ -39,13 +39,15 @@
                                  <children>
                                     <Label text="%settings.title.search.stop" />
                                     <Separator HBox.hgrow="ALWAYS" />
-                                    <Label style="-fx-font-size: 12px;" text="v4.0.8" />
                                  </children>
                               </HBox>
                               <ComboBox fx:id="busStopCombo" editable="true" focusTraversable="false" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="%settings.combobox.busstop.promptext">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
                               </ComboBox>
                               <HBox alignment="CENTER_LEFT" spacing="10.0">
                                  <children>
@@ -88,6 +90,7 @@
                               </HBox>
                            </children>
                         </VBox>
+                        <Label fx:id="stopAddedInfo" alignment="CENTER" style="-fx-background-color: #3498db; -fx-text-fill: #fff;" text="%settings.help.add.stop" textAlignment="CENTER" visible="false" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="75.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -161,6 +164,24 @@
                               </Button>
                            </children>
                         </VBox>
+                        <AnchorPane fx:id="noneFavoriteInfo" style="-fx-background-color: #fff;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label text="%settings.help.favorite" textAlignment="CENTER" wrapText="true" />
+                                    <Region maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" style="-fx-background-color: #3498db;">
+                                       <styleClass>
+                                          <String fx:value="svg" />
+                                          <String fx:value="busIcon" />
+                                       </styleClass>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Region>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
             </content>
@@ -183,7 +204,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox fx:id="tajeta" alignment="CENTER_LEFT" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <VBox fx:id="tajeta" alignment="TOP_CENTER" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                                  <children>
@@ -191,7 +212,10 @@
                                     <Separator HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <TextField fx:id="cardNumberText" onMouseClicked="#hideTheCadBalanceLabel" prefHeight="30.0" promptText="%settings.card.number.promptext" />
+                              <TextField fx:id="cardNumberText" onMouseClicked="#hideTheCadBalanceLabel" prefHeight="30.0" promptText="%settings.card.number.promptext">
+                                 <VBox.margin>
+                                    <Insets top="25.0" />
+                                 </VBox.margin></TextField>
                               <HBox alignment="CENTER_LEFT" spacing="25.0">
                                  <children>
                                     <Button graphicTextGap="10.0" mnemonicParsing="false" onAction="#knowTheCardBalance" prefHeight="30.0" style="-fx-background-color: #3498db;" text="%settings.button.consult">
@@ -240,7 +264,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox fx:id="configuracion" alignment="CENTER" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <VBox fx:id="configuracion" alignment="TOP_CENTER" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                                  <children>
@@ -248,13 +272,13 @@
                                     <Separator HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <GridPane alignment="CENTER_LEFT" prefHeight="65.0" vgap="20.0">
+                              <GridPane alignment="CENTER_LEFT" prefHeight="120.0" vgap="20.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="198.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="182.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" valignment="BOTTOM" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
@@ -302,7 +326,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox fx:id="idioma" alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <VBox fx:id="idioma" alignment="TOP_CENTER" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
                                  <children>
@@ -310,7 +334,7 @@
                                     <Separator HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <GridPane>
+                              <GridPane alignment="TOP_CENTER" prefHeight="100.0" prefWidth="380.0">
                                 <columnConstraints>
                                     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -318,16 +342,13 @@
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <Label text="%settings.language.spanish" />
                                     <Label text="%settings.language.catalan" GridPane.columnIndex="1" />
                                     <Label text="%settings.language.english" GridPane.columnIndex="2" />
-                                 </children>
-                              </GridPane>
-                              <HBox alignment="CENTER" prefHeight="50.0" spacing="50.0">
-                                 <children>
-                                    <RadioButton fx:id="spanishRadioButton" mnemonicParsing="false">
+                                    <RadioButton fx:id="spanishRadioButton" mnemonicParsing="false" GridPane.rowIndex="1">
                                        <graphic>
                                           <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="castellanoFlag">
                                              <cursor>
@@ -338,9 +359,6 @@
                                        <toggleGroup>
                                           <ToggleGroup fx:id="languageGroup" />
                                        </toggleGroup>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
                                        <tooltip>
                                           <Tooltip text="%settings.language.spanish" />
                                        </tooltip>
@@ -348,7 +366,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </RadioButton>
-                                    <RadioButton fx:id="catalanRadioButton" mnemonicParsing="false" toggleGroup="$languageGroup">
+                                    <RadioButton fx:id="catalanRadioButton" mnemonicParsing="false" toggleGroup="$languageGroup" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <graphic>
                                           <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="valencianoFlag">
                                              <cursor>
@@ -363,7 +381,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </RadioButton>
-                                    <RadioButton fx:id="englishRadioButton" mnemonicParsing="false" toggleGroup="$languageGroup">
+                                    <RadioButton fx:id="englishRadioButton" mnemonicParsing="false" toggleGroup="$languageGroup" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <graphic>
                                           <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="inglesFlag">
                                              <cursor>
@@ -379,7 +397,7 @@
                                        </cursor>
                                     </RadioButton>
                                  </children>
-                              </HBox>
+                              </GridPane>
                            </children>
                         </VBox>
                      </children>
@@ -396,6 +414,39 @@
                      <styleClass>
                         <String fx:value="svg" />
                         <String fx:value="languageIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
+            </Tab>
+            <Tab>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" spacing="60.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label text="%settings.title.about" />
+                                    <Separator HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <Label text="v4.0.9" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+               <tooltip>
+                  <Tooltip text="%settings.title.language" />
+               </tooltip>
+               <graphic>
+                  <Region minHeight="22.0" minWidth="20.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="questionIcon" />
                      </styleClass>
                   </Region>
                </graphic>

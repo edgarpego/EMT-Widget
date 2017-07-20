@@ -94,29 +94,25 @@
             </GridPane>
          </children>
       </Pane>
-      <VBox alignment="TOP_CENTER" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
-         <children>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#closeApplication" prefHeight="32.0" style="-fx-background-color: #e74c3c;" VBox.vgrow="ALWAYS">
-               <tooltip>
-                  <Tooltip text="%widget.button.close" />
-               </tooltip>
+      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#closeApplication" prefHeight="31.0" prefWidth="50.0" style="-fx-background-color: #e74c3c;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <tooltip>
+            <Tooltip text="%widget.button.close" />
+         </tooltip>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <Region maxHeight="18.0" maxWidth="18.0">
+               <styleClass>
+                  <String fx:value="svg" />
+                  <String fx:value="cancelIcon" />
+               </styleClass>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
-               <graphic>
-                  <Region maxHeight="18.0" maxWidth="18.0">
-                     <styleClass>
-                        <String fx:value="svg" />
-                        <String fx:value="cancelIcon" />
-                     </styleClass>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Region>
-               </graphic>
-            </Button>
-         </children>
-      </VBox>
+            </Region>
+         </graphic>
+      </Button>
       <VBox alignment="CENTER" prefWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-1.0">
          <children>
             <Button fx:id="moveButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #34495e;" VBox.vgrow="ALWAYS">

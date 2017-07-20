@@ -20,6 +20,8 @@ import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
 import es.tamarit.widgetemt.services.searchstop.SearchStopService;
 import es.tamarit.widgetemt.services.searchstop.SearchStopServiceImpl;
 import es.tamarit.widgetemt.utils.WinRegistry;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -33,7 +35,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class SettingsController extends AbstractController {
     
@@ -79,6 +83,10 @@ public class SettingsController extends AbstractController {
     private TextField cardNumberText;
     @FXML
     private Label cardBalanceLabel;
+    @FXML
+    private AnchorPane noneFavoriteInfo;
+    @FXML
+    private Label stopAddedInfo;
     
     private FilePropertiesService properties;
     private SearchStopService searchStopService;
@@ -184,6 +192,10 @@ public class SettingsController extends AbstractController {
                 deleteButton.setDisable(false);
             }
         });
+        
+        if (favoritesTableView.getItems().isEmpty()) {
+            noneFavoriteInfo.setVisible(true);
+        }
     }
     
     @FXML
@@ -202,12 +214,26 @@ public class SettingsController extends AbstractController {
         busStopCombo.getEditor().clear();
         lineFilterText.clear();
         adaptedCheck.setSelected(false);
+        
+        if (!favoritesTableView.getItems().isEmpty()) {
+            noneFavoriteInfo.setVisible(false);
+        }
+        
+        stopAddedInfo.setVisible(true);
+        FadeTransition fade = new FadeTransition(Duration.seconds(2.5), stopAddedInfo);
+        fade.setInterpolator(Interpolator.EASE_IN);
+        fade.setFromValue(1);
+        fade.setToValue(0);
+        fade.play();
     }
     
     @FXML
     private void deleteRowSelected() {
         Favorite selectedItem = favoritesTableView.getSelectionModel().getSelectedItem();
         favoritesTableView.getItems().remove(selectedItem);
+        if (favoritesTableView.getItems().isEmpty()) {
+            noneFavoriteInfo.setVisible(true);
+        }
     }
     
     @FXML

@@ -201,38 +201,6 @@
 	-fx-border-color: #3498db;
 }
 
-
-/*.table-view {
-	-fx-border-width: 0;
-	-fx-border-color: #3498db;
-	-fx-background-color: #fff;
-}
-
-.table-view:focused {
-	-fx-background-color: #fff;
-}
-
-.table-view .filler {
-	-fx-background-color: #3498db;
-	-fx-border-color: #fff;
-	-fx-border-width: 1;
-}
-
-.table-view .column-header-background {
-	-fx-border-width: 1;
-}
-
-.table-view .column-header-background .label {
-	-fx-text-fill: white;
-	-fx-alignment: CENTER;
-}
-
-.table-view .column-header {
-	-fx-background-color: #3498db;
-	-fx-border-color: #fff;
-	-fx-border-width: 1;
-}*/
-
  .table-view .table-cell {
 	-fx-border-color: #3498db;
 	-fx-border-width: 1;
