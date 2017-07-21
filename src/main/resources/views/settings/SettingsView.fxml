@@ -437,7 +437,7 @@
                   </AnchorPane>
                </content>
                <tooltip>
-                  <Tooltip text="%settings.title.language" />
+                  <Tooltip text="%settings.title.about" />
                </tooltip>
                <graphic>
                   <Region minHeight="22.0" minWidth="20.0">
