@@ -11,6 +11,7 @@
 	-fx-border-radius: 0px;
 	-fx-background-radius: 0px;
 	-fx-text-fill: #fff;
+	-fx-background-insets: 0px;
 }
 
 .button:hover .image-view {
@@ -79,6 +80,7 @@
 
 /*------------------------- COMBOBOX STYLE ------------------------- */
 .combo-box-base {
+	
 	-fx-accent: #ddd;
 	-fx-focus-color: #ddd;
 	-fx-background-color: #fff;
@@ -89,12 +91,17 @@
 
 .combo-box-base .list-cell:selected {
 	-fx-background-color: #3498db;
-	-fx-border-color: #fff;
-	-fx-border-width: 0px 1px 0px 0px;
+	-fx-border-color: #3498db #fff #3498db #3498db;
+	-fx-border-width: 1px 1px 1px 1px;
 }
 
 .combo-box-base .list-cell:selected .text {
 	-fx-fill: #fff;
+	-fx-font-size: 1.2em;
+}
+
+.combo-box .list-view .virtual-flow .list-cell .text{
+	-fx-font-size: 1.2em;
 }
 
 .combo-box-base .arrow-button {
