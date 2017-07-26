@@ -1,13 +1,17 @@
 package es.tamarit.widgetemt.controllers.settings;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.sun.javafx.PlatformUtil;
 
 import es.tamarit.widgetemt.controllers.AbstractController;
 import es.tamarit.widgetemt.services.cardbalance.CardBalanceService;
@@ -39,11 +43,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+@SuppressWarnings("restriction")
 public class SettingsController extends AbstractController {
     
     private static final Logger LOGGER = LogManager.getLogger(SettingsController.class);
     private static final String KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
     private static final String VALUE_NAME = "EMT-Widget";
+    private static final String APP_NAME = "EMT-Widget.exe";
+    private static final String PATH_TO_AGENT_FOLDER = System.getProperty("user.home") + File.separator + "Library" + File.separator + "LaunchAgents" + File.separator;
+    private static final String AGENT_NAME = "es.etamarit.emtwidget.plist";
     public static final String URL_VIEW = "/views/settings/SettingsView.fxml";
     
     @FXML
@@ -117,9 +125,6 @@ public class SettingsController extends AbstractController {
             busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
             alwaysOnTopCheck.setSelected(Boolean.valueOf(properties.getProperty("always.on.front")));
             autoRefreshCheck.setSelected(Boolean.valueOf(properties.getProperty("auto.refresh.data")));
-            
-            autoStartCheck.setSelected(true);
-            autoStartCheck.setSelected(false);
             
             cardNumberText.setText(properties.getProperty("number.mobilis.card"));
             
@@ -277,8 +282,10 @@ public class SettingsController extends AbstractController {
         
         properties.store();
         
-        if (autoStartCheck.isSelected() != autoStartStatus) {
-            createOrRemoveStartupLink();
+        if (!autoStartCheck.isDisabled()) {
+            if (autoStartCheck.isSelected() != autoStartStatus) {
+                createOrRemoveStartupLink();
+            }
         }
         
         viewManager.loadWidgetView();
@@ -328,35 +335,69 @@ public class SettingsController extends AbstractController {
     private void createOrRemoveStartupLink() {
         
         if (System.getProperty("ApplicationPath") != null) {
-            try {
-                if (autoStartCheck.isSelected()) {
-                    WinRegistry.writeStringValue(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME, "\"" + System.getProperty("ApplicationPath") + "\"");
-                } else {
-                    WinRegistry.deleteValue(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME);
+            if (PlatformUtil.isWindows()) {
+                try {
+                    if (autoStartCheck.isSelected()) {
+                        WinRegistry.writeStringValue(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME, "\"" + System.getProperty("ApplicationPath") + APP_NAME + "\"");
+                    } else {
+                        WinRegistry.deleteValue(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME);
+                    }
+                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+                    LOGGER.error("Error trying to  writte or delete a registry entry");
                 }
-            } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-                LOGGER.error("Error trying to  writte or delete a registry entry");
+            } else if (PlatformUtil.isMac()) {
+                try {
+                    if (autoStartCheck.isSelected()) {
+                        File srcFile = new File(System.getProperty("ApplicationPath") + AGENT_NAME);
+                        File destDir = new File(PATH_TO_AGENT_FOLDER);
+                        FileUtils.copyFileToDirectory(srcFile, destDir);
+                    } else {
+                        File agentFile = new File(PATH_TO_AGENT_FOLDER + AGENT_NAME);
+                        agentFile.delete();
+                    }
+                } catch (IOException e) {
+                    LOGGER.error("Error trying to copying or deleting files", e);
+                }
             }
         }
     }
     
     private void checkStartupFolder() {
         
-        if (System.getProperty("ApplicationPath") != null) {
+        if (PlatformUtil.isWindows()) {
             
-            try {
-                String result = WinRegistry.readString(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME);
+            if (System.getProperty("ApplicationPath") != null) {
                 
-                if (result != null) {
-                    autoStartCheck.setSelected(true);
-                    autoStartStatus = true;
-                } else {
+                try {
+                    String result = WinRegistry.readString(WinRegistry.HKEY_CURRENT_USER, KEY, VALUE_NAME);
+                    
+                    if (result != null) {
+                        autoStartCheck.setSelected(true);
+                        autoStartStatus = true;
+                    } else {
+                        autoStartCheck.setSelected(false);
+                        autoStartStatus = false;
+                    }
+                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
                     autoStartCheck.setSelected(false);
                     autoStartStatus = false;
+                    LOGGER.error("Error trying to read value from the registry", e);
                 }
-            } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-                LOGGER.error("Error trying to read value from the registry", e);
             }
+        } else if (PlatformUtil.isMac()) {
+            
+            File agentFile = new File(PATH_TO_AGENT_FOLDER + AGENT_NAME);
+            
+            if (agentFile.exists()) {
+                autoStartCheck.setSelected(true);
+                autoStartStatus = true;
+            } else {
+                autoStartCheck.setSelected(false);
+                autoStartStatus = false;
+            }
+            
+        } else if (PlatformUtil.isUnix()) {
+            autoStartCheck.setDisable(true);
         }
     }
 }

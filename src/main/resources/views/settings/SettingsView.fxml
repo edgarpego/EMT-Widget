@@ -430,7 +430,7 @@
                                     <Separator HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <Label text="v4.0.9" />
+                              <Label text="v4.1.0" />
                            </children>
                         </VBox>
                      </children>
