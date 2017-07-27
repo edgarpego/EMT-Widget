@@ -46,7 +46,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <VBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </ComboBox>
                               <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -67,7 +67,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </CheckBox>
-                                    <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavorites" style="-fx-background-color: #3498db;" text="%settings.button.add">
+                                    <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="35.0" style="-fx-background-color: #3498db;" text="%settings.button.add">
                                        <tooltip>
                                           <Tooltip text="%settings.button.tooltip.add" />
                                        </tooltip>
@@ -143,7 +143,7 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <Button fx:id="deleteButton" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#deleteRowSelected" style="-fx-background-color: #3498db;" text="%settings.button.delete">
+                              <Button fx:id="deleteButton" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#deleteRowSelected" prefHeight="35.0" style="-fx-background-color: #3498db;" text="%settings.button.delete">
                                  <tooltip>
                                     <Tooltip text="%settings.button.delete" />
                                  </tooltip>
@@ -214,11 +214,11 @@
                               </HBox>
                               <TextField fx:id="cardNumberText" onMouseClicked="#hideTheCadBalanceLabel" prefHeight="30.0" promptText="%settings.card.number.promptext">
                                  <VBox.margin>
-                                    <Insets top="25.0" />
+                                    <Insets top="15.0" />
                                  </VBox.margin></TextField>
                               <HBox alignment="CENTER_LEFT" spacing="25.0">
                                  <children>
-                                    <Button graphicTextGap="10.0" mnemonicParsing="false" onAction="#knowTheCardBalance" prefHeight="30.0" style="-fx-background-color: #3498db;" text="%settings.button.consult">
+                                    <Button graphicTextGap="10.0" mnemonicParsing="false" onAction="#knowTheCardBalance" prefHeight="35.0" style="-fx-background-color: #3498db;" text="%settings.button.consult">
                                        <tooltip>
                                           <Tooltip text="%settings.button.tooltip.consult" />
                                        </tooltip>
@@ -430,7 +430,7 @@
                                     <Separator HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <Label text="v4.1.1" />
+                              <Label text="v4.1.2" />
                            </children>
                         </VBox>
                      </children>

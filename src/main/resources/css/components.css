@@ -3,7 +3,8 @@
 	-fx-faint-focus-color: transparent;
 	-fx-background-color: transparent;
 	-fx-font-family:  "Lato", sans-serif;
-	-fx-font-size: 1.3em;
+	-fx-font-size: 15px;
+	/*-fx-font-size: 1.3em;*/
 }
 
 /*------------------------- BUTTON STYLE --------------------------- */
@@ -40,7 +41,7 @@
 
 /*------------------------- TOOLTIP STYLE -------------------------- */
 .tooltip {
-	-fx-font-size: 1.1em;
+	-fx-font-size: 13px;
 }
 
 /*----------------------- TEXT FIELD STYLE ------------------------- */
@@ -97,11 +98,11 @@
 
 .combo-box-base .list-cell:selected .text {
 	-fx-fill: #fff;
-	-fx-font-size: 1.2em;
+	-fx-font-size: 14px
 }
 
 .combo-box .list-view .virtual-flow .list-cell .text{
-	-fx-font-size: 1.2em;
+	-fx-font-size: 14px;
 }
 
 .combo-box-base .arrow-button {
@@ -255,15 +256,15 @@
 .scroll-bar:vertical .track {
 	-fx-background-color: #fff;
 	-fx-border-color: #fff;
-	-fx-background-radius: 0em;
-	-fx-border-radius:2em;
+	-fx-background-radius: 0px;
+	-fx-border-radius:5px;
 }
 
 /* The increment and decrement button CSS class of scrollbar */
 .scroll-bar:horizontal .increment-button ,
 .scroll-bar:horizontal .decrement-button {
     -fx-background-color: transparent;
-	-fx-background-radius: 0em;
+	-fx-background-radius: 0px;
 	-fx-padding: 0px 0px 10px 0px;
 
 }
@@ -272,7 +273,7 @@
 .scroll-bar:vertical .increment-button ,
 .scroll-bar:vertical .decrement-button {
     -fx-background-color: transparent;
-	-fx-background-radius: 0em;
+	-fx-background-radius: 0px;
 	-fx-padding: 0px 10px 0px 0px;
 
 }
@@ -280,7 +281,7 @@
  .scroll-bar .increment-arrow,
  .scroll-bar .decrement-arrow {
 	-fx-shape: " ";	
-	-fx-padding: 0;
+	-fx-padding: 0px;
 }
 
 /* The main scrollbar **thumb** CSS class which we drag every time (movable) */
@@ -288,5 +289,5 @@
 .scroll-bar:vertical .thumb {
     -fx-background-color: derive(black,90%);
 	-fx-background-insets: 2, 0, 0;
-	-fx-background-radius: 2em;
+	-fx-background-radius: 5px;
 }
