@@ -12,9 +12,11 @@ import es.tamarit.widgetemt.controllers.widget.WidgetController;
 import es.tamarit.widgetemt.core.language.LanguageManager;
 import es.tamarit.widgetemt.services.properties.FilePropertiesService;
 import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -41,10 +43,22 @@ public class ViewManager {
 
         loadWidgetView();
 
-        primaryStage.setX(Double.valueOf(properties.getProperty("widget.position.x")));
-        primaryStage.setY(Double.valueOf(properties.getProperty("widget.position.y")));
-        secondaryStage.setX(Double.valueOf(properties.getProperty("widget.position.x")));
-        secondaryStage.setY(Double.valueOf(properties.getProperty("widget.position.y")));
+        //Check if the widget is in some active screen if it is not, the position will be reset.
+        ObservableList<Screen> screens = Screen.getScreensForRectangle(Double.valueOf(properties.getProperty("widget.position.x")), Double.valueOf(properties.getProperty("widget.position.y")), 400, 130);
+        if (!screens.isEmpty()) {
+            primaryStage.setX(Double.valueOf(properties.getProperty("widget.position.x")));
+            primaryStage.setY(Double.valueOf(properties.getProperty("widget.position.y")));
+            secondaryStage.setX(Double.valueOf(properties.getProperty("widget.position.x")));
+            secondaryStage.setY(Double.valueOf(properties.getProperty("widget.position.y")));
+        } else {
+            primaryStage.setX(50);
+            primaryStage.setY(50);
+            secondaryStage.setX(50);
+            secondaryStage.setY(50);
+            properties.setProperty("widget.position.x", "50.0");
+            properties.setProperty("widget.position.y", "50.0");
+            properties.store();
+        }
         secondaryStage.initStyle(StageStyle.TRANSPARENT);
         secondaryStage.initOwner(primaryStage);
 
