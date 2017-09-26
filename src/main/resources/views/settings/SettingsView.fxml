@@ -442,7 +442,7 @@
                                     <Separator HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <Label text="v4.2.0" />
+                              <Label text="%application.current.version" />
                            </children>
                         </VBox>
                      </children>

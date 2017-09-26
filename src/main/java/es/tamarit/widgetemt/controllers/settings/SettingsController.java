@@ -19,8 +19,6 @@ import es.tamarit.widgetemt.services.cardbalance.CardBalanceServiceImpl;
 import es.tamarit.widgetemt.services.favorites.Favorite;
 import es.tamarit.widgetemt.services.favorites.FavoritesService;
 import es.tamarit.widgetemt.services.favorites.FavoritesServiceImpl;
-import es.tamarit.widgetemt.services.properties.FilePropertiesService;
-import es.tamarit.widgetemt.services.properties.SettingsPropertiesServiceImpl;
 import es.tamarit.widgetemt.services.searchstop.SearchStopService;
 import es.tamarit.widgetemt.services.searchstop.SearchStopServiceImpl;
 import es.tamarit.widgetemt.utils.WinRegistry;
@@ -47,12 +45,13 @@ import javafx.util.Duration;
 public class SettingsController extends AbstractController {
     
     private static final Logger LOGGER = LogManager.getLogger(SettingsController.class);
-    private static final String KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
-    private static final String VALUE_NAME = "EMT-Widget";
-    private static final String APP_NAME = "EMT-Widget.exe";
-    private static final String PATH_TO_AGENT_FOLDER = System.getProperty("user.home") + File.separator + "Library" + File.separator + "LaunchAgents" + File.separator;
-    private static final String AGENT_NAME = "es.etamarit.emtwidget.plist";
     public static final String URL_VIEW = "/views/settings/SettingsView.fxml";
+    
+    private final String KEY = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+    private final String VALUE_NAME = "EMT-Widget";
+    private final String APP_NAME = "EMT-Widget.exe";
+    private final String PATH_TO_AGENT_FOLDER = System.getProperty("user.home") + File.separator + "Library" + File.separator + "LaunchAgents" + File.separator;
+    private final String AGENT_NAME = "es.etamarit.emtwidget.plist";
     
     @FXML
     private TableView<Favorite> favoritesTableView;
@@ -96,7 +95,6 @@ public class SettingsController extends AbstractController {
     @FXML
     private Label stopAddedInfo;
     
-    private FilePropertiesService properties;
     private SearchStopService searchStopService;
     private FavoritesService favoriteService;
     private CardBalanceService cardBalanceService;
@@ -109,10 +107,9 @@ public class SettingsController extends AbstractController {
         
         this.resourceBundle = resources;
         
-        try {
-            properties = new SettingsPropertiesServiceImpl();
+        Platform.runLater(() -> {
             searchStopService = new SearchStopServiceImpl();
-            favoriteService = new FavoritesServiceImpl(properties);
+            favoriteService = new FavoritesServiceImpl(viewManager.getProperties());
             
             busStopCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                 if (newSelection != null) {
@@ -123,16 +120,16 @@ public class SettingsController extends AbstractController {
             });
             
             busStopCombo.getEditor().textProperty().addListener((ChangeListener<String>) (arg0, arg1, arg2) -> textEditor(arg1, arg2));
-            alwaysOnTopCheck.setSelected(Boolean.valueOf(properties.getProperty("always.on.front")));
-            autoRefreshCheck.setSelected(Boolean.valueOf(properties.getProperty("auto.refresh.data")));
+            alwaysOnTopCheck.setSelected(Boolean.valueOf(viewManager.getProperties().getProperty("always.on.front")));
+            autoRefreshCheck.setSelected(Boolean.valueOf(viewManager.getProperties().getProperty("auto.refresh.data")));
             
-            cardNumberText.setText(properties.getProperty("number.mobilis.card"));
+            cardNumberText.setText(viewManager.getProperties().getProperty("number.mobilis.card"));
             
             spanishRadioButton.setUserData("es-ES");
             catalanRadioButton.setUserData("ca-ES");
             englishRadioButton.setUserData("en-EN");
             
-            String locale = properties.getProperty("application.language.locale");
+            String locale = viewManager.getProperties().getProperty("application.language.locale");
             switch (locale) {
                 case "es-ES":
                     spanishRadioButton.setSelected(true);
@@ -148,14 +145,10 @@ public class SettingsController extends AbstractController {
                     break;
             }
             
-            Platform.runLater(() -> {
-                initializeTableView();
-                checkStartupFolder();
-            });
-            
-        } catch (IOException e) {
-            LOGGER.error("Error trying to load the properties", e);
-        }
+            initializeTableView();
+            checkStartupFolder();
+        });
+        
     }
     
     private void initializeTableView() {
@@ -256,15 +249,15 @@ public class SettingsController extends AbstractController {
                 if (balance != null && !balance.isEmpty()) {
                     cardBalanceLabel.setText(balance);
                     cardBalanceLabel.setVisible(true);
-                    properties.setProperty("number.mobilis.card", cardNumberText.getText());
-                    properties.store();
+                    viewManager.getProperties().setProperty("number.mobilis.card", cardNumberText.getText());
+                    viewManager.getProperties().store();
                 } else {
                     cardBalanceLabel.setText(resourceBundle.getString("settings.text.card.balance.label"));
                     cardBalanceLabel.setVisible(true);
                 }
             } else {
-                properties.setProperty("number.mobilis.card", cardNumberText.getText());
-                properties.store();
+                viewManager.getProperties().setProperty("number.mobilis.card", cardNumberText.getText());
+                viewManager.getProperties().store();
             }
         } catch (IOException e) {
             LOGGER.error("Error trying to get the response from the EMT server", e);
@@ -274,13 +267,13 @@ public class SettingsController extends AbstractController {
     @FXML
     private void openWidgetViewConfirm() {
         
-        properties.setProperty("always.on.front", String.valueOf(alwaysOnTopCheck.isSelected()));
-        properties.setProperty("auto.refresh.data", String.valueOf(autoRefreshCheck.isSelected()));
-        properties.setProperty("application.language.locale", languageGroup.getSelectedToggle().getUserData().toString());
+        viewManager.getProperties().setProperty("always.on.front", String.valueOf(alwaysOnTopCheck.isSelected()));
+        viewManager.getProperties().setProperty("auto.refresh.data", String.valueOf(autoRefreshCheck.isSelected()));
+        viewManager.getProperties().setProperty("application.language.locale", languageGroup.getSelectedToggle().getUserData().toString());
         
         favoriteService.setAllFavorites(favoritesTableView.getItems());
         
-        properties.store();
+        viewManager.getProperties().store();
         
         if (!autoStartCheck.isDisabled()) {
             if (autoStartCheck.isSelected() != autoStartStatus) {

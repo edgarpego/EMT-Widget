@@ -1,8 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="280.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="es.tamarit.widgetemt.controllers.updater.UpdaterController">
-	<!-- TODO Add Nodes -->
+<AnchorPane prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.updater.UpdaterController">
+   <children>
+      <Label layoutX="22.0" layoutY="23.0" text="%updater.user.question" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3498db;" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <WebView fx:id="webView" maxHeight="-1.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0" />
+         </children>
+      </AnchorPane>
+      <CheckBox fx:id="remainderCheckbox" mnemonicParsing="false" text="%updater.reminder.check" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" />
+      <HBox fx:id="botones" alignment="CENTER" cache="true" layoutX="10.0" layoutY="10.0" prefHeight="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openWidgetViewUpdate" style="-fx-background-color: #2ecc71;" HBox.hgrow="ALWAYS">
+               <tooltip>
+                  <Tooltip text="%updater.button.update" />
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <Region maxHeight="20.0" maxWidth="25.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="confirmIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
+            </Button>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openWidgetViewCancel" style="-fx-background-color: #e74c3c;" HBox.hgrow="ALWAYS">
+               <tooltip>
+                  <Tooltip text="%settings.button.cancel" />
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <Region maxHeight="20.0" maxWidth="20.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="svg" />
+                        <String fx:value="cancelIcon" />
+                     </styleClass>
+                  </Region>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>
-
