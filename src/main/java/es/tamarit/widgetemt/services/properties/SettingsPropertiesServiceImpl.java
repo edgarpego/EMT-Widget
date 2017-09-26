@@ -15,32 +15,32 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SettingsPropertiesServiceImpl implements FilePropertiesService {
-    
+
     private static final Logger LOGGER = LogManager.getLogger(SettingsPropertiesServiceImpl.class);
     private static final String FILE_SETTINGS = System.getProperty("user.home") + File.separator + ".EMTWidget" + File.separator + "settings.emt";
     private static final String CODIFICATION = "UTF-8";
-    
+
     private Properties properties;
-    
+
     public SettingsPropertiesServiceImpl() throws IOException {
         newFileIfNotExists();
-        
+
         properties = new Properties();
         Reader reader = new InputStreamReader(new FileInputStream(FILE_SETTINGS), CODIFICATION);
         properties.load(reader);
         reader.close();
-        
+
         checkPropertiesIntegrity();
     }
-    
+
     private void newFileIfNotExists() {
         try {
             File file = new File(FILE_SETTINGS);
-            
+
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
-                
+
                 Writer writer = new OutputStreamWriter(new FileOutputStream(FILE_SETTINGS), CODIFICATION);
                 writer.write("widget.position.x=50\n");
                 writer.write("widget.position.y=50\n");
@@ -49,17 +49,18 @@ public class SettingsPropertiesServiceImpl implements FilePropertiesService {
                 writer.write("auto.refresh.data=false\n");
                 writer.write("application.language.locale=es-ES\n");
                 writer.write("number.mobilis.card=\n");
+                writer.write("check.updates.automatically=true\n");
                 writer.close();
             }
         } catch (IOException e) {
             LOGGER.error("Error trying to create the settings file.", e);
         }
     }
-    
+
     private void checkPropertiesIntegrity() {
-        
+
         boolean neededRestore = false;
-        
+
         if (properties.getProperty("widget.position.x") == null || properties.getProperty("widget.position.x").isEmpty()) {
             properties.setProperty("widget.position.x", "50");
             neededRestore = true;
@@ -88,22 +89,26 @@ public class SettingsPropertiesServiceImpl implements FilePropertiesService {
             properties.setProperty("number.mobilis.card", "");
             neededRestore = true;
         }
-        
+        if (properties.getProperty("check.updates.automatically") == null || properties.getProperty("check.updates.automatically").isEmpty()) {
+            properties.setProperty("check.updates.automatically", "true");
+            neededRestore = true;
+        }
+
         if (neededRestore) {
             store();
         }
     }
-    
+
     @Override
     public String getProperty(String key) {
         return properties.getProperty(key);
     }
-    
+
     @Override
     public void setProperty(String key, String value) {
         properties.setProperty(key, value);
     }
-    
+
     @Override
     public void store() {
         try {

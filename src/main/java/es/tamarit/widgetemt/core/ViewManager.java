@@ -1,6 +1,8 @@
 package es.tamarit.widgetemt.core;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -8,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.tamarit.widgetemt.controllers.settings.SettingsController;
+import es.tamarit.widgetemt.controllers.updater.UpdaterController;
 import es.tamarit.widgetemt.controllers.widget.WidgetController;
 import es.tamarit.widgetemt.core.language.LanguageManager;
 import es.tamarit.widgetemt.services.properties.FilePropertiesService;
@@ -23,6 +26,8 @@ import javafx.stage.StageStyle;
 public class ViewManager {
 
     private static final Logger LOGGER = LogManager.getLogger(ViewManager.class);
+    private static final Integer PING_TIMEOUT = 3000;
+    private static final String SERVER_URL = "www.google.es";
 
     private Stage primaryStage;
     private Stage secondaryStage;
@@ -41,7 +46,17 @@ public class ViewManager {
         primaryStage.setWidth(1);
         primaryStage.setHeight(1);
 
-        loadWidgetView();
+        getResourceBundle();
+
+        if (Boolean.valueOf(properties.getProperty("check.updates.automatically"))) {
+            if (checkForUpdates()) {
+                loadCheckForUpdatesView();
+            } else {
+                loadWidgetView();
+            }
+        } else {
+            loadWidgetView();
+        }
 
         //Check if the widget is in some active screen if it is not, the position will be reset.
         ObservableList<Screen> screens = Screen.getScreensForRectangle(Double.valueOf(properties.getProperty("widget.position.x")), Double.valueOf(properties.getProperty("widget.position.y")), 400, 130);
@@ -59,6 +74,7 @@ public class ViewManager {
             properties.setProperty("widget.position.y", "50.0");
             properties.store();
         }
+
         secondaryStage.initStyle(StageStyle.TRANSPARENT);
         secondaryStage.initOwner(primaryStage);
 
@@ -104,6 +120,46 @@ public class ViewManager {
         } catch (IOException e) {
             LOGGER.error("Error trying to load the view.", e);
         }
+    }
+
+    private void loadCheckForUpdatesView() {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setResources(getResourceBundle());
+            currentView = fxmlLoader.load(getClass().getResource(UpdaterController.URL_VIEW).openStream());
+            UpdaterController controller = (UpdaterController) fxmlLoader.getController();
+            controller.setViewManager(this);
+
+            scene = new Scene(currentView);
+
+            loadStyleSheets();
+
+            secondaryStage.setScene(scene);
+
+        } catch (IOException e) {
+            LOGGER.error("Error trying to load the view.", e);
+        }
+    }
+
+    private boolean checkForUpdates() {
+        try {
+            InetAddress address = InetAddress.getByName(SERVER_URL);
+
+            if (address.isReachable(PING_TIMEOUT)) {
+                LOGGER.info("Reachable server");
+                return true;
+            } else {
+                LOGGER.info("Unreachable server");
+                return false;
+            }
+        } catch (UnknownHostException e) {
+            LOGGER.error("Error trying to contact with the server.", e);
+        } catch (IOException e) {
+            LOGGER.error("Error trying to reach the server.", e);
+        }
+
+        return false;
     }
 
     private void loadStyleSheets() {

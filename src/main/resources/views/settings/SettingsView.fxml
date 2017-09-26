@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.settings.SettingsController">
+<AnchorPane prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tamarit.widgetemt.controllers.settings.SettingsController">
    <children>
       <TabPane prefWidth="400.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -49,24 +49,36 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </ComboBox>
-                              <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                 <children>
-                                    <Label text="%settings.text.line" />
-                                    <TextField fx:id="lineFilterText" focusTraversable="false" prefWidth="50.0" promptText="Nº">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <Label text="%settings.text.line.all" />
-                                 </children>
-                              </HBox>
                               <HBox alignment="CENTER_LEFT" spacing="100.0">
                                  <children>
-                                    <CheckBox fx:id="adaptedCheck" mnemonicParsing="false" text="%settings.checkbox.only.adapted">
+                                    <CheckBox fx:id="adaptedCheck" mnemonicParsing="false">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <graphic>
+                                          <Region prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #3498db;">
+                                             <styleClass>
+                                                <String fx:value="svg" />
+                                                <String fx:value="wheelchairIcon" />
+                                             </styleClass>
+                                          </Region>
+                                       </graphic>
                                     </CheckBox>
+                                    <HBox alignment="CENTER" spacing="5.0">
+                                       <children>
+                                          <Label text="%settings.text.line" />
+                                          <TextField fx:id="lineFilterText" focusTraversable="false" prefWidth="50.0" promptText="Nº">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <Label text="%settings.text.line.all" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
                                     <Button fx:id="addButton" alignment="CENTER" disable="true" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addToFavorites" prefHeight="35.0" style="-fx-background-color: #3498db;" text="%settings.button.add">
                                        <tooltip>
                                           <Tooltip text="%settings.button.tooltip.add" />
@@ -430,7 +442,7 @@
                                     <Separator HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <Label text="v4.1.3" />
+                              <Label text="v4.2.0" />
                            </children>
                         </VBox>
                      </children>
