@@ -11,22 +11,23 @@ import java.nio.charset.StandardCharsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UpdaterImpl implements Updater {
+import com.sun.javafx.PlatformUtil;
 
+public class UpdaterImpl implements Updater {
+    
     private static final Logger LOGGER = LogManager.getLogger(UpdaterImpl.class);
     private final Integer PING_TIMEOUT = 3000;
     private final String SERVER_URL = "www.edgartamarit.com";
-    private final String LAST_VERSION = "http://edgartamarit.com/downloads/emt-widget/version.html";
-    private final String HISTORY_URL = "http://edgartamarit.com/downloads/emt-widget/history.html";
-
+    private final String LAST_VERSION_URL = "http://edgartamarit.com/downloads/emt-widget/lastVersion.html";
+    
     @Override
     public boolean checkForUpdates(String currentVersion) {
-
+        
         try {
             InetAddress address = InetAddress.getByName(SERVER_URL);
-
+            
             if (address.isReachable(PING_TIMEOUT)) {
-
+                
                 if (versionCompare(currentVersion, getLatestVersion()) < 0) {
                     return true;
                 } else {
@@ -43,37 +44,55 @@ public class UpdaterImpl implements Updater {
         } catch (Exception e) {
             LOGGER.error("Error trying to get the lastest version file from the server", e);
         }
-
+        
         return false;
     }
-
+    
     @Override
     public String getLatestVersion() throws Exception {
-        String data = getData(LAST_VERSION);
+        String data = getData(LAST_VERSION_URL);
         return data.substring(data.indexOf("[version]") + 9, data.indexOf("[/version]"));
     }
-
+    
     @Override
     public String getWhatsNew() throws Exception {
-        String data = getData(HISTORY_URL);
+        String data = getData(LAST_VERSION_URL);
         return data.substring(data.indexOf("[history]") + 9, data.indexOf("[/history]"));
     }
-
+    
+    @SuppressWarnings("restriction")
+    @Override
+    public String downloadLinkFromHost() throws Exception {
+        String data = getData(LAST_VERSION_URL);
+        
+        String URL = "www.edgartamarit.com";
+        
+        if (PlatformUtil.isWindows()) {
+            URL = data.substring(data.indexOf("[url_win]") + 9, data.indexOf("[/url_win]"));
+        } else if (PlatformUtil.isMac()) {
+            URL = data.substring(data.indexOf("[url_mac]") + 9, data.indexOf("[/url_mac]"));
+        } else if (PlatformUtil.isLinux()) {
+            URL = data.substring(data.indexOf("[url_lin]") + 9, data.indexOf("[/url_lin]"));
+        }
+        
+        return URL;
+    }
+    
     private String getData(String address) throws Exception {
-
+        
         URL url = new URL(address);
         BufferedReader html = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
         StringBuilder buffer = new StringBuilder("");
-
+        
         int c = 0;
         while (c != -1) {
             c = html.read();
             buffer.append((char) c);
         }
-
+        
         return buffer.toString();
     }
-
+    
     /**
      * Compares two version strings.
      * 

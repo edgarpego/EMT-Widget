@@ -7,4 +7,6 @@ public interface Updater {
     String getLatestVersion() throws Exception;
     
     String getWhatsNew() throws Exception;
+    
+    String downloadLinkFromHost() throws Exception;
 }

@@ -19,48 +19,51 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 public class UpdaterController extends AbstractController {
-
+    
     private static final Logger LOGGER = LogManager.getLogger(UpdaterController.class);
     public static final String URL_VIEW = "/views/updater/UpdaterView.fxml";
-
+    
     @FXML
     private CheckBox remainderCheckbox;
     @FXML
     private WebView webView;
-
+    
     private WebEngine webEngine;
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-
+            
             webView.setContextMenuEnabled(false);
             webEngine = webView.getEngine();
             webEngine.setUserStyleSheetLocation(getClass().getResource("/css/webReleases.css").toString());
-
+            
             Updater updater = new UpdaterImpl();
             webEngine.loadContent(updater.getWhatsNew());
-
+            
         } catch (Exception e) {
             LOGGER.error("Error trying to get the release notes.", e);
         }
     }
-
+    
     @FXML
     private void openWidgetViewUpdate() {
-
+        
         try {
-            Desktop.getDesktop().browse(new URI("http://www.emt-widget.edgartamarit.com"));
+            Updater updater = new UpdaterImpl();
+            Desktop.getDesktop().browse(new URI(updater.downloadLinkFromHost()));
         } catch (IOException | URISyntaxException e) {
             LOGGER.error("Error trying to open the system web browser", e);
+        } catch (Exception e) {
+            LOGGER.error("Error trying to get the download link from the host", e);
         }
-
+        
         openWidgetView();
     }
-
+    
     @FXML
     private void openWidgetView() {
-
+        
         viewManager.getProperties().setProperty("check.updates.automatically", String.valueOf(!remainderCheckbox.isSelected()));
         viewManager.getProperties().store();
         viewManager.loadWidgetView();
