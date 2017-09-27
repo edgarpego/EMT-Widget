@@ -454,7 +454,7 @@
                                     <Label text="%application.current.version" />
                                  </children>
                               </HBox>
-                              <Button graphicTextGap="10.0" mnemonicParsing="false" prefHeight="35.0" onAction="#openWebInformátion" style="-fx-background-color: #3498db;" text="%settings.button.info">
+                              <Button graphicTextGap="10.0" mnemonicParsing="false" prefHeight="35.0" onAction="#openWebInformation" style="-fx-background-color: #3498db;" text="%settings.button.info">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
