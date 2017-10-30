@@ -26,7 +26,6 @@ import es.tamarit.widgetemt.services.searchstop.SearchStopService;
 import es.tamarit.widgetemt.services.searchstop.SearchStopServiceImpl;
 import es.tamarit.widgetemt.utils.WinRegistry;
 import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -224,10 +223,10 @@ public class SettingsController extends AbstractController {
         }
         
         stopAddedInfo.setVisible(true);
-        FadeTransition fade = new FadeTransition(Duration.seconds(2.5), stopAddedInfo);
-        fade.setInterpolator(Interpolator.EASE_IN);
-        fade.setFromValue(1);
-        fade.setToValue(0);
+        FadeTransition fade = new FadeTransition(Duration.seconds(2), stopAddedInfo);
+        fade.setOnFinished(event -> {
+            stopAddedInfo.setVisible(false);
+        });
         fade.play();
     }
     
