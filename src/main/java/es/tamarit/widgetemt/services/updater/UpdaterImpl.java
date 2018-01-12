@@ -18,7 +18,7 @@ public class UpdaterImpl implements Updater {
     private static final Logger LOGGER = LogManager.getLogger(UpdaterImpl.class);
     private final Integer PING_TIMEOUT = 3000;
     private final String SERVER_URL = "www.edgartamarit.com";
-    private final String LAST_VERSION_URL = "http://edgartamarit.com/downloads/emt-widget/lastVersion.html";
+    private final String LAST_VERSION_URL = "https://www.edgartamarit.com/downloads/emt-widget/lastVersion.html";
     
     @Override
     public boolean checkForUpdates(String currentVersion) {
