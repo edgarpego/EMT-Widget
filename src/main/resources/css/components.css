@@ -202,16 +202,17 @@
 }
 
 .table-view {
-	-fx-background-insets: 0;
+	-fx-background-insets: 0px;
 }
 
 .table-view .placeholder {
 	-fx-border-color: #3498db;
 }
 
- .table-view .table-cell {
+.table-view .table-cell {
 	-fx-border-color: #3498db;
-	-fx-border-width: 1;
+	-fx-border-width: 1px;
+	-fx-alignment: CENTER-LEFT;
 }
 
 .table-row-cell {
@@ -223,7 +224,7 @@
 	-fx-background-color: #eee;
 }
 
-.table-row-cell:selected  .text {
+.table-row-cell:selected .text {
 	-fx-fill: #000;
 }
 
@@ -243,6 +244,38 @@
     -fx-background-color: #fff;
 }
 */
+
+/*------------------ TABLE VIEW NO HEADER STYLE ------------------- */
+.noheader .column-header-background {
+    -fx-max-height: 0px;
+    -fx-pref-height: 0px;
+    -fx-min-height: 0px;
+}
+
+.noheader .placeholder {
+	-fx-border-width: 0px;
+}
+
+.noheader .table-cell {
+	-fx-border-width: 0px;
+	-fx-alignment: CENTER-LEFT;
+}
+
+.noheader .table-row-cell:odd {
+    -fx-background-color: whitesmoke;
+}
+
+.noheader .table-row-cell {
+	-fx-font-size: 19px;
+}
+
+.noheader .table-row-cell:selected {
+	-fx-background-color: #fff;
+}
+
+.noheader .table-row-cell:odd:selected {
+	-fx-background-color: whitesmoke;
+}
 
 /*------------------------ SCROLLBAR STYLE ------------------------- */
 /* http://blog.ngopal.com.np/2012/07/11/customize-scrollbar-via-css/ */

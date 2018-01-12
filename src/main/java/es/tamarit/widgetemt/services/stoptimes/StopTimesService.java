@@ -2,6 +2,8 @@ package es.tamarit.widgetemt.services.stoptimes;
 
 import java.io.IOException;
 
+import javafx.collections.ObservableList;
+
 public interface StopTimesService {
     
     /**
@@ -9,5 +11,5 @@ public interface StopTimesService {
      * @return HTML response as string
      * @throws IOException
      */
-    public String findByNameAndLineAndAdapted() throws IOException;
+    public ObservableList<LineTimeData> findByNameAndLineAndAdapted() throws IOException;
 }

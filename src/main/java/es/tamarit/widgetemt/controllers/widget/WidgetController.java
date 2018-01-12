@@ -15,6 +15,7 @@ import es.tamarit.widgetemt.controllers.AbstractController;
 import es.tamarit.widgetemt.services.favorites.Favorite;
 import es.tamarit.widgetemt.services.favorites.FavoritesService;
 import es.tamarit.widgetemt.services.favorites.FavoritesServiceImpl;
+import es.tamarit.widgetemt.services.stoptimes.LineTimeData;
 import es.tamarit.widgetemt.services.stoptimes.StopTimesService;
 import es.tamarit.widgetemt.services.stoptimes.StopTimesServiceImpl;
 import javafx.application.Platform;
@@ -22,10 +23,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 
 public class WidgetController extends AbstractController {
     
@@ -35,7 +38,13 @@ public class WidgetController extends AbstractController {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     
     @FXML
-    private ProgressIndicator progress;
+    private TableView<LineTimeData> lineTimesTableView;
+    @FXML
+    private TableColumn<LineTimeData, String> lineImgColumn;
+    @FXML
+    private TableColumn<LineTimeData, String> lineNameColumn;
+    @FXML
+    private TableColumn<LineTimeData, String> lineTimeColumn;
     @FXML
     private Button refreshButton;
     @FXML
@@ -43,24 +52,23 @@ public class WidgetController extends AbstractController {
     @FXML
     private Pane helpPane;
     @FXML
-    private WebView myWebView;
-    @FXML
     private ComboBox<Favorite> favoritesComboBox;
     
-    private WebEngine myWebEngine;
-    private String response;
     private StopTimesService stopTimesService;
     private FavoritesService favoriteService;
-    private ResourceBundle resourceBundle;
+    
+    private static final int MAX_FAILS = 25;
+    private int currentFails = 0;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
-        this.resourceBundle = resources;
-        
         setMoveListeners();
         
         Platform.runLater(() -> {
+            
+            initializeTableView();
+            
             favoriteService = new FavoritesServiceImpl(viewManager.getProperties());
             
             Boolean alwaysOnFront = Boolean.valueOf(viewManager.getProperties().getProperty("always.on.front").toString());
@@ -70,10 +78,6 @@ public class WidgetController extends AbstractController {
             
             if (!favoritesComboBox.getItems().isEmpty()) {
                 
-                myWebView.setContextMenuEnabled(false);
-                myWebEngine = myWebView.getEngine();
-                myWebEngine.setUserStyleSheetLocation(getClass().getResource("/css/webstyle.css").toString());
-                
                 favoritesComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                     
                     if (newSelection != null) {
@@ -81,6 +85,9 @@ public class WidgetController extends AbstractController {
                         Locale locale = Locale.forLanguageTag(viewManager.getProperties().getProperty("application.language.locale"));
                         String language = locale.getLanguage();
                         stopTimesService = new StopTimesServiceImpl(newSelection.getStopName(), newSelection.getLineFilter(), newSelection.getAdapted(), language);
+                        if (lineTimesTableView.getItems() != null) {
+                            lineTimesTableView.getItems().clear();
+                        }
                         printTimes();
                     }
                 });
@@ -99,6 +106,7 @@ public class WidgetController extends AbstractController {
     
     @FXML
     private void reloadHandler() {
+        currentFails = 0;
         printTimes();
     }
     
@@ -108,31 +116,27 @@ public class WidgetController extends AbstractController {
             LOGGER.info("Printing the times");
             
             Platform.runLater(() -> {
-                progress.setVisible(true);
                 refreshButton.setDisable(true);
-                myWebEngine.loadContent("");
                 
                 new Thread(() -> {
                     try {
-                        response = stopTimesService.findByNameAndLineAndAdapted();
+                        lineTimesTableView.setItems(stopTimesService.findByNameAndLineAndAdapted());
                         
                     } catch (IOException e) {
                         LOGGER.error("Error trying to get the response from the EMT server", e);
                     } finally {
                         
                         Platform.runLater(() -> {
-                            if (response != null && !response.isEmpty()) {
-                                if (response.contains("No disponible") || response.contains("Out of service")) {
+                            if (lineTimesTableView.getItems() == null) {
+                                currentFails++;
+                                if (currentFails <= MAX_FAILS) {
                                     printTimes();
                                 } else {
-                                    myWebEngine.loadContent("<html><body>" + response + "</body></html>");
                                     refreshButton.setDisable(false);
-                                    progress.setVisible(false);
                                 }
                             } else {
-                                myWebEngine.loadContent("<html><body><h2>" + resourceBundle.getString("widget.void.response") + "</h2></body></html>");
+                                currentFails = 0;
                                 refreshButton.setDisable(false);
-                                progress.setVisible(false);
                             }
                         });
                     }
@@ -153,6 +157,68 @@ public class WidgetController extends AbstractController {
         Platform.runLater(() -> {
             viewManager.getSecondaryStage().close();
             System.exit(0);
+        });
+    }
+    
+    private void initializeTableView() {
+        
+        lineTimesTableView.setSelectionModel(null);
+        
+        lineImgColumn.setCellValueFactory(cellData -> cellData.getValue().getLineImgURLProperty());
+        lineImgColumn.setCellFactory(column -> {
+            return new TableCell<LineTimeData, String>() {
+                
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                        setGraphic(null);
+                    } else {
+                        ImageView image = new ImageView(item);
+                        image.setFitWidth(25);
+                        image.setFitHeight(25);
+                        setGraphic(image);
+                    }
+                }
+            };
+        });
+        
+        lineNameColumn.setCellValueFactory(cellData -> cellData.getValue().getLineNameProperty());
+        lineTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getLineTimeProperty());
+        lineTimeColumn.setCellFactory(column -> {
+            return new TableCell<LineTimeData, String>() {
+                
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                        setGraphic(null);
+                    } else {
+                        
+                        Label label = new Label();
+                        label.setText(item);
+                        label.setWrapText(true);
+                        label.setMaxWidth(110);
+                        label.setStyle("-fx-text-fill: #000;");
+                        if (item.contains("min.")) {
+                            if (Integer.valueOf(item.split(" ")[0]) <= 5) {
+                                label.setStyle("-fx-text-fill: #a5eb78;");
+                            }
+                        } else if (item.contains("Pr") || item.contains("Next") || item.contains("Pr")) {
+                            label.setStyle("-fx-text-fill: #a5eb78;");
+                        } else if (!item.contains(":")) {
+                            label.setStyle("-fx-text-fill: red; -fx-font-size: 12px;");
+                        }
+                        setGraphic(label);
+                    }
+                }
+            };
         });
     }
     

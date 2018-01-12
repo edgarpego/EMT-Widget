@@ -273,7 +273,7 @@ public class SettingsController extends AbstractController {
     private void openWebInformation() {
         
         try {
-            Desktop.getDesktop().browse(new URI("http://www.emt-widget.edgartamarit.com"));
+            Desktop.getDesktop().browse(new URI("https://emt-widget.edgartamarit.com"));
         } catch (IOException | URISyntaxException e) {
             LOGGER.error("Error trying to open the system web browser", e);
         }

@@ -20,7 +20,7 @@ public class Favorite {
     }
     
     public void setStopName(String stopName) {
-        this.stopName.set(stopName);;
+        this.stopName.set(stopName);
     }
     
     public StringProperty stopNameProperty() {
@@ -32,7 +32,7 @@ public class Favorite {
     }
     
     public void setLineFilter(String lineFilter) {
-        this.lineFilter.set(lineFilter);;
+        this.lineFilter.set(lineFilter);
     }
     
     public StringProperty lineFilterProperty() {
@@ -44,7 +44,7 @@ public class Favorite {
     }
     
     public void setAdapted(String adapted) {
-        this.adapted.set(adapted);;
+        this.adapted.set(adapted);
     }
     
     public StringProperty adaptedProperty() {
