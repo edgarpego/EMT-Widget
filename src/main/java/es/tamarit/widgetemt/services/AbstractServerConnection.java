@@ -32,6 +32,7 @@ public abstract class AbstractServerConnection {
         // Tell server that this is POST and in which format is the data
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("Referer", "https://www.emtvalencia.es/ciudadano/index.php");
         conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
         conn.setDoOutput(true);
         conn.getOutputStream().write(postDataBytes);
